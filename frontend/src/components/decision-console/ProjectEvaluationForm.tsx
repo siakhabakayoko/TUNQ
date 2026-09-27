@@ -71,17 +71,17 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
   const uemoaCountries = getUemoaCountries();
 
   const [form, setForm] = useState<ProjectInput>({
-    title: PRESETS[0].title,
-    tagline: PRESETS[0].tagline,
-    sectorId: PRESETS[0].sectorId,
-    regionId: PRESETS[0].regionId,
-    description: PRESETS[0].description,
-    unitPriceFcfa: PRESETS[0].unitPriceFcfa,
-    unitCostFcfa: PRESETS[0].unitCostFcfa,
-    monthlyFixedCostsFcfa: PRESETS[0].monthlyFixedCostsFcfa,
-    targetMonthlySalesVolume: PRESETS[0].targetMonthlySalesVolume,
-    isUemoaExportTarget: PRESETS[0].isUemoaExportTarget,
-    uemoaTargetCountry: PRESETS[0].uemoaTargetCountry
+    title: '',
+    tagline: '',
+    sectorId: sectors[0].sector_id,
+    regionId: 'DK',
+    description: '',
+    unitPriceFcfa: 0,
+    unitCostFcfa: 0,
+    monthlyFixedCostsFcfa: 0,
+    targetMonthlySalesVolume: 0,
+    isUemoaExportTarget: false,
+    uemoaTargetCountry: 'CI'
   });
 
   const applyPreset = (idx: number) => {
@@ -243,8 +243,9 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
                     type="number"
                     required
                     min={1}
-                    value={form.unitPriceFcfa}
+                    value={form.unitPriceFcfa || ''}
                     onChange={(e) => setForm({ ...form, unitPriceFcfa: Number(e.target.value) })}
+                    placeholder="25 000"
                     className="w-full bg-background border border-input px-3 py-2 text-xs text-foreground font-mono focus:border-primary focus:outline-hidden"
                   />
                   <span className="absolute right-3 top-2 text-[11px] text-muted-foreground font-mono">FCFA</span>
@@ -261,8 +262,9 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
                     type="number"
                     required
                     min={0}
-                    value={form.unitCostFcfa}
+                    value={form.unitCostFcfa || ''}
                     onChange={(e) => setForm({ ...form, unitCostFcfa: Number(e.target.value) })}
+                    placeholder="12 500"
                     className="w-full bg-background border border-input px-3 py-2 text-xs text-foreground font-mono focus:border-primary focus:outline-hidden"
                   />
                   <span className="absolute right-3 top-2 text-[11px] text-muted-foreground font-mono">FCFA</span>
@@ -280,8 +282,9 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
                   type="number"
                   required
                   min={1}
-                  value={form.monthlyFixedCostsFcfa}
+                  value={form.monthlyFixedCostsFcfa || ''}
                   onChange={(e) => setForm({ ...form, monthlyFixedCostsFcfa: Number(e.target.value) })}
+                  placeholder="350 000"
                   className="w-full bg-background border border-input px-3 py-2 text-xs text-foreground font-mono focus:border-primary focus:outline-hidden"
                 />
                 <span className="absolute right-3 top-2 text-[11px] text-muted-foreground font-mono">FCFA / mois</span>
@@ -297,8 +300,9 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
                 type="number"
                 required
                 min={1}
-                value={form.targetMonthlySalesVolume}
+                value={form.targetMonthlySalesVolume || ''}
                 onChange={(e) => setForm({ ...form, targetMonthlySalesVolume: Number(e.target.value) })}
+                placeholder="100"
                 className="w-full bg-background border border-input px-3 py-2 text-xs text-foreground font-mono focus:border-primary focus:outline-hidden"
               />
             </div>
