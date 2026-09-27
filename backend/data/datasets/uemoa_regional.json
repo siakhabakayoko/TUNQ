@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "dataset_id": "uemoa_macro_corridors_2026",
+    "title": "Indicateurs Macro-Économiques & Corridors Commerciaux UEMOA / CEDEAO",
+    "source": "BCEAO / Commission UEMOA / ANSD Commerce Extérieur",
+    "monetary_zone": "FCFA (XOF)",
+    "bceao_key_interest_rate_pct": 3.5,
+    "total_uemoa_population": 142500000
+  },
+  "countries": [
+    {
+      "country_code": "SN",
+      "name": "Sénégal",
+      "population": 18275743,
+      "gdp_billions_fcfa": 20850,
+      "inflation_pct": 3.5,
+      "trade_balance_with_sn": "Marché Domestique",
+      "key_export_to_sn": "-",
+      "key_import_from_sn": "-",
+      "ease_of_business_rank": "Leader réformes OHADA"
+    },
+    {
+      "country_code": "CI",
+      "name": "Côte d'Ivoire",
+      "population": 30100000,
+      "gdp_billions_fcfa": 49800,
+      "inflation_pct": 3.8,
+      "trade_balance_with_sn": "Excédent ivoirien (Énergie, Plastiques, Cacao)",
+      "key_export_to_sn": "Produits manufacturés, Huile de palme, Énergie",
+      "key_import_from_sn": "Poissons, Ciment, Produits pharmaceutiques",
+      "ease_of_business_rank": "Hub financier UEMOA"
+    },
+    {
+      "country_code": "ML",
+      "name": "Mali",
+      "population": 22900000,
+      "gdp_billions_fcfa": 12400,
+      "inflation_pct": 4.2,
+      "trade_balance_with_sn": "Fort excédent sénégalais (680 Milliards FCFA)",
+      "key_export_to_sn": "Bétail sur pied, Coton, Or brut",
+      "key_import_from_sn": "Carburants réexportés, Ciment, Engrais, Produits alimentaires",
+      "ease_of_business_rank": "Corridor prioritaire Dakar-Bamako (Route & Rail)"
+    },
+    {
+      "country_code": "BF",
+      "name": "Burkina Faso",
+      "population": 23100000,
+      "gdp_billions_fcfa": 13100,
+      "inflation_pct": 3.9,
+      "trade_balance_with_sn": "Excédent sénégalais modéré",
+      "key_export_to_sn": "Fruits frais (Mangues), Bétail",
+      "key_import_from_sn": "Produits de la mer, Huiles raffinées, Savons",
+      "ease_of_business_rank": "Enclavement terrestre"
+    },
+    {
+      "country_code": "GN",
+      "name": "Guinée",
+      "population": 14200000,
+      "gdp_billions_fcfa": 14200,
+      "inflation_pct": 6.8,
+      "trade_balance_with_sn": "Flux frontaliers denses (Corridor Dakar-Conakry)",
+      "key_export_to_sn": "Bauxite, Fruits tropicaux, Café",
+      "key_import_from_sn": "Matériaux BTP, Services digitaux, Produits transformés",
+      "ease_of_business_rank": "Membre CEDEAO (Monnaie GNF)"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "dataset_id": "enes_salaires_senegal_2024",
+    "title": "Enquête Nationale sur l'Emploi au Sénégal (ENES) - Grilles Salariales & Marché du Travail",
+    "source": "ANSD / Direction des Statistiques Démographiques et Sociales",
+    "minimum_wage_smig_fcfa": 64228,
+    "median_formal_salary_fcfa": 185000
+  },
+  "profiles": [
+    {
+      "profile_id": "WORKER_BASIC",
+      "role": "Ouvrier non qualifié / Manœuvre",
+      "monthly_gross_dakar_fcfa": 95000,
+      "monthly_gross_regions_fcfa": 75000,
+      "availability": "Très forte",
+      "employer_social_charges_pct": 18.5
+    },
+    {
+      "profile_id": "TECH_QUALIFIED",
+      "role": "Technicien qualifié / Chauffeur / Maintenance",
+      "monthly_gross_dakar_fcfa": 185000,
+      "monthly_gross_regions_fcfa": 140000,
+      "availability": "Moyenne",
+      "employer_social_charges_pct": 19.5
+    },
+    {
+      "profile_id": "DEV_SOFTWARE",
+      "role": "Développeur Fullstack / Data Analyst (Junior)",
+      "monthly_gross_dakar_fcfa": 420000,
+      "monthly_gross_regions_fcfa": 280000,
+      "availability": "Tension (forte concurrence)",
+      "employer_social_charges_pct": 21.0
+    },
+    {
+      "profile_id": "DEV_SENIOR",
+      "role": "Ingénieur Logiciel Senior / Lead Tech",
+      "monthly_gross_dakar_fcfa": 950000,
+      "monthly_gross_regions_fcfa": 650000,
+      "availability": "Très rare (télétravail diaspora)",
+      "employer_social_charges_pct": 22.0
+    },
+    {
+      "profile_id": "SALES_COMMERCIAL",
+      "role": "Commercial B2B / Responsable Ventes",
+      "monthly_gross_dakar_fcfa": 320000,
+      "monthly_gross_regions_fcfa": 220000,
+      "availability": "Bonne (primes sur résultats requises)",
+      "employer_social_charges_pct": 20.0
+    },
+    {
+      "profile_id": "ACCOUNTANT_FINANCE",
+      "role": "Comptable SYSCOHADA / Gestionnaire",
+      "monthly_gross_dakar_fcfa": 380000,
+      "monthly_gross_regions_fcfa": 260000,
+      "availability": "Moyenne",
+      "employer_social_charges_pct": 20.5
+    },
+    {
+      "profile_id": "OPS_MANAGER",
+      "role": "Directeur des Opérations / Directeur Général",
+      "monthly_gross_dakar_fcfa": 1450000,
+      "monthly_gross_regions_fcfa": 980000,
+      "availability": "Rare",
+      "employer_social_charges_pct": 22.5
+    }
+  ]
+}

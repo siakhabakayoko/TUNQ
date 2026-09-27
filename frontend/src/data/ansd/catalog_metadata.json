@@ -1,0 +1,74 @@
+[
+  {
+    "dataset_id": "tsghpfc",
+    "title": "Indice Harmonisé des Prix à la Consommation (IHPC) Base 2023",
+    "source": "ANSD",
+    "category": "Prix & Inflation",
+    "update_frequency": "Mensuelle",
+    "records_count": 144,
+    "status": "SYNCED"
+  },
+  {
+    "dataset_id": "rgph5_senegal_2023",
+    "title": "Recensement Général de la Population et de l'Habitat (RGPH-5)",
+    "source": "ANSD",
+    "category": "Démographie & Territoires",
+    "update_frequency": "Décennale",
+    "records_count": 14,
+    "status": "SYNCED"
+  },
+  {
+    "dataset_id": "rge_senegal_2024",
+    "title": "Recensement Général des Entreprises (RGE-2) & Mortalité PME",
+    "source": "ANSD",
+    "category": "Entreprises & Secteurs",
+    "update_frequency": "Annuelle",
+    "records_count": 8,
+    "status": "SYNCED"
+  },
+  {
+    "dataset_id": "enes_salaires_senegal_2024",
+    "title": "Enquête Nationale sur l'Emploi au Sénégal (ENES)",
+    "source": "ANSD",
+    "category": "Marché du Travail & Salaires",
+    "update_frequency": "Semestrielle",
+    "records_count": 7,
+    "status": "SYNCED"
+  },
+  {
+    "dataset_id": "uemoa_macro_corridors_2026",
+    "title": "Indicateurs Macro-Économiques & Corridors UEMOA/BCEAO",
+    "source": "BCEAO/UEMOA",
+    "category": "Commerce Sous-Régional",
+    "update_frequency": "Trimestrielle",
+    "records_count": 5,
+    "status": "SYNCED"
+  },
+  {
+    "dataset_id": "ansd_ippi_industriel",
+    "title": "Indice des Prix à la Production Industrielle (IPPI)",
+    "source": "ANSD",
+    "category": "Industrie & Coûts",
+    "update_frequency": "Trimestrielle",
+    "records_count": 24,
+    "status": "INDEXED"
+  },
+  {
+    "dataset_id": "ansd_ipce_exterieur",
+    "title": "Indice du Commerce Extérieur & Termes de l'Échange",
+    "source": "ANSD",
+    "category": "Commerce Extérieur",
+    "update_frequency": "Trimestrielle",
+    "records_count": 18,
+    "status": "INDEXED"
+  },
+  {
+    "dataset_id": "ansd_comptes_nationaux",
+    "title": "Comptes Nationaux & PIB Trimestriel du Sénégal",
+    "source": "ANSD",
+    "category": "Macroéconomie",
+    "update_frequency": "Trimestrielle",
+    "records_count": 32,
+    "status": "INDEXED"
+  }
+]

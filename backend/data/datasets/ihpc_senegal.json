@@ -1,0 +1,172 @@
+{
+  "metadata": {
+    "dataset_id": "tsghpfc",
+    "title": "Indice Harmonisé des Prix à la Consommation (IHPC) - Base 100 en 2023",
+    "source": "ANSD / Direction des Statistiques Économiques",
+    "frequency": "Mensuelle",
+    "country": "Sénégal",
+    "currency": "FCFA",
+    "base_year": 2023,
+    "last_updated": "2026-08-31"
+  },
+  "functions": [
+    {
+      "code": "01",
+      "name": "Produits alimentaires et boissons non alcoolisées",
+      "weight": 425.2,
+      "index_current": 105.4,
+      "change_monthly": 0.3,
+      "change_yearly": 3.8
+    },
+    {
+      "code": "02",
+      "name": "Boissons alcoolisées, tabacs et stupéfiants",
+      "weight": 9.4,
+      "index_current": 102.1,
+      "change_monthly": -0.1,
+      "change_yearly": 1.2
+    },
+    {
+      "code": "03",
+      "name": "Articles d'habillement et chaussures",
+      "weight": 61.3,
+      "index_current": 103.8,
+      "change_monthly": 0.2,
+      "change_yearly": 2.4
+    },
+    {
+      "code": "04",
+      "name": "Logement, eau, électricité, gaz et autres combustibles",
+      "weight": 118.5,
+      "index_current": 106.7,
+      "change_monthly": 0.4,
+      "change_yearly": 4.1
+    },
+    {
+      "code": "05",
+      "name": "Meubles, articles de ménage et entretien courant",
+      "weight": 47.8,
+      "index_current": 102.9,
+      "change_monthly": 0.1,
+      "change_yearly": 1.9
+    },
+    {
+      "code": "06",
+      "name": "Santé",
+      "weight": 41.6,
+      "index_current": 104.5,
+      "change_monthly": 0.2,
+      "change_yearly": 2.7
+    },
+    {
+      "code": "07",
+      "name": "Transports",
+      "weight": 83.1,
+      "index_current": 107.2,
+      "change_monthly": 0.5,
+      "change_yearly": 4.5
+    },
+    {
+      "code": "08",
+      "name": "Communication",
+      "weight": 44.9,
+      "index_current": 98.4,
+      "change_monthly": -0.3,
+      "change_yearly": -1.2
+    },
+    {
+      "code": "09",
+      "name": "Loisirs et culture",
+      "weight": 22.7,
+      "index_current": 101.8,
+      "change_monthly": 0.0,
+      "change_yearly": 1.5
+    },
+    {
+      "code": "10",
+      "name": "Enseignement",
+      "weight": 28.3,
+      "index_current": 105.9,
+      "change_monthly": 0.0,
+      "change_yearly": 3.4
+    },
+    {
+      "code": "11",
+      "name": "Restaurants et hôtels",
+      "weight": 48.0,
+      "index_current": 108.3,
+      "change_monthly": 0.6,
+      "change_yearly": 5.2
+    },
+    {
+      "code": "12",
+      "name": "Biens et services divers",
+      "weight": 69.2,
+      "index_current": 104.0,
+      "change_monthly": 0.2,
+      "change_yearly": 2.8
+    }
+  ],
+  "monthly_series": [
+    {
+      "period": "2025-09",
+      "overall_index": 102.1,
+      "inflation_rate_yoy": 2.8
+    },
+    {
+      "period": "2025-10",
+      "overall_index": 102.4,
+      "inflation_rate_yoy": 2.9
+    },
+    {
+      "period": "2025-11",
+      "overall_index": 102.8,
+      "inflation_rate_yoy": 3.1
+    },
+    {
+      "period": "2025-12",
+      "overall_index": 103.2,
+      "inflation_rate_yoy": 3.0
+    },
+    {
+      "period": "2026-01",
+      "overall_index": 103.6,
+      "inflation_rate_yoy": 3.2
+    },
+    {
+      "period": "2026-02",
+      "overall_index": 103.9,
+      "inflation_rate_yoy": 3.1
+    },
+    {
+      "period": "2026-03",
+      "overall_index": 104.1,
+      "inflation_rate_yoy": 3.3
+    },
+    {
+      "period": "2026-04",
+      "overall_index": 104.5,
+      "inflation_rate_yoy": 3.4
+    },
+    {
+      "period": "2026-05",
+      "overall_index": 104.8,
+      "inflation_rate_yoy": 3.5
+    },
+    {
+      "period": "2026-06",
+      "overall_index": 105.0,
+      "inflation_rate_yoy": 3.4
+    },
+    {
+      "period": "2026-07",
+      "overall_index": 105.3,
+      "inflation_rate_yoy": 3.6
+    },
+    {
+      "period": "2026-08",
+      "overall_index": 105.6,
+      "inflation_rate_yoy": 3.5
+    }
+  ]
+}

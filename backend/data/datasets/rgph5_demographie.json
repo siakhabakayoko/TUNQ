@@ -1,0 +1,216 @@
+{
+  "metadata": {
+    "dataset_id": "rgph5_senegal_2023",
+    "title": "Recensement Général de la Population et de l'Habitat (RGPH-5)",
+    "source": "ANSD / Bureau Central du Recensement",
+    "census_year": 2023,
+    "total_population": 18275743,
+    "urban_share_pct": 50.1,
+    "youth_under_25_pct": 60.4,
+    "average_household_size": 8.7
+  },
+  "regions": [
+    {
+      "region_id": "DK",
+      "name": "Dakar",
+      "population": 4004523,
+      "urban_rate": 96.4,
+      "households": 512000,
+      "avg_monthly_income_fcfa": 385000,
+      "purchasing_tier": "Élevé",
+      "top_activities": [
+        "Services",
+        "Commerce",
+        "Fintech",
+        "BTP",
+        "Numérique"
+      ]
+    },
+    {
+      "region_id": "TH",
+      "name": "Thiès",
+      "population": 2497841,
+      "urban_rate": 54.2,
+      "households": 298000,
+      "avg_monthly_income_fcfa": 245000,
+      "purchasing_tier": "Moyen-Supérieur",
+      "top_activities": [
+        "Industrie",
+        "Tourisme",
+        "Pêche",
+        "Agriculture",
+        "Mines"
+      ]
+    },
+    {
+      "region_id": "DB",
+      "name": "Diourbel",
+      "population": 1801928,
+      "urban_rate": 28.5,
+      "households": 195000,
+      "avg_monthly_income_fcfa": 190000,
+      "purchasing_tier": "Moyen",
+      "top_activities": [
+        "Commerce de gros (Touba)",
+        "Agriculture",
+        "Artisanat"
+      ]
+    },
+    {
+      "region_id": "SL",
+      "name": "Saint-Louis",
+      "population": 1121087,
+      "urban_rate": 48.7,
+      "households": 134000,
+      "avg_monthly_income_fcfa": 220000,
+      "purchasing_tier": "Moyen",
+      "top_activities": [
+        "Agro-industrie (Riz/Sucre)",
+        "Gaz offshore",
+        "Pêche",
+        "Tourisme"
+      ]
+    },
+    {
+      "region_id": "KL",
+      "name": "Kaolack",
+      "population": 1256743,
+      "urban_rate": 39.1,
+      "households": 142000,
+      "avg_monthly_income_fcfa": 185000,
+      "purchasing_tier": "Moyen",
+      "top_activities": [
+        "Bassin arachidier",
+        "Transit sous-régional",
+        "Sel"
+      ]
+    },
+    {
+      "region_id": "ZG",
+      "name": "Ziguinchor",
+      "population": 724911,
+      "urban_rate": 49.3,
+      "households": 96000,
+      "avg_monthly_income_fcfa": 205000,
+      "purchasing_tier": "Moyen",
+      "top_activities": [
+        "Agroalimentaire",
+        "Tourisme (Cap Skirring)",
+        "Pêche",
+        "Sylviculture"
+      ]
+    },
+    {
+      "region_id": "TC",
+      "name": "Tambacounda",
+      "population": 988540,
+      "urban_rate": 26.8,
+      "households": 112000,
+      "avg_monthly_income_fcfa": 175000,
+      "purchasing_tier": "Modéré",
+      "top_activities": [
+        "Mines",
+        "Coton",
+        "Corridor Mali",
+        "Élevage"
+      ]
+    },
+    {
+      "region_id": "LG",
+      "name": "Louga",
+      "population": 1032612,
+      "urban_rate": 24.3,
+      "households": 121000,
+      "avg_monthly_income_fcfa": 210000,
+      "purchasing_tier": "Moyen (Soutien diaspora)",
+      "top_activities": [
+        "Élevage",
+        "Transferts diaspora",
+        "Maraîchage"
+      ]
+    },
+    {
+      "region_id": "FT",
+      "name": "Fatick",
+      "population": 924310,
+      "urban_rate": 18.2,
+      "households": 105000,
+      "avg_monthly_income_fcfa": 165000,
+      "purchasing_tier": "Modéré",
+      "top_activities": [
+        "Sel",
+        "Pêche",
+        "Arachide",
+        "Écotourisme"
+      ]
+    },
+    {
+      "region_id": "KD",
+      "name": "Kolda",
+      "population": 843120,
+      "urban_rate": 27.1,
+      "households": 94000,
+      "avg_monthly_income_fcfa": 160000,
+      "purchasing_tier": "Modéré",
+      "top_activities": [
+        "Élevage",
+        "Céréales",
+        "Fruits forestiers"
+      ]
+    },
+    {
+      "region_id": "MT",
+      "name": "Matam",
+      "population": 732104,
+      "urban_rate": 22.0,
+      "households": 81000,
+      "avg_monthly_income_fcfa": 215000,
+      "purchasing_tier": "Moyen (Soutien diaspora)",
+      "top_activities": [
+        "Agriculture irriguée Vallée du fleuve",
+        "Mines phosphates"
+      ]
+    },
+    {
+      "region_id": "KF",
+      "name": "Kaffrine",
+      "population": 794215,
+      "urban_rate": 17.5,
+      "households": 88000,
+      "avg_monthly_income_fcfa": 155000,
+      "purchasing_tier": "Modéré",
+      "top_activities": [
+        "Production céréalière",
+        "Arachide"
+      ]
+    },
+    {
+      "region_id": "SD",
+      "name": "Sédhiou",
+      "population": 591412,
+      "urban_rate": 16.4,
+      "households": 67000,
+      "avg_monthly_income_fcfa": 150000,
+      "purchasing_tier": "Modéré",
+      "top_activities": [
+        "Anacarde",
+        "Riz",
+        "Arboriculture"
+      ]
+    },
+    {
+      "region_id": "KG",
+      "name": "Kédougou",
+      "population": 215897,
+      "urban_rate": 31.2,
+      "households": 28000,
+      "avg_monthly_income_fcfa": 230000,
+      "purchasing_tier": "Moyen (Activité minière)",
+      "top_activities": [
+        "Mines d'or",
+        "Écotourisme",
+        "Commerce frontalier"
+      ]
+    }
+  ]
+}
