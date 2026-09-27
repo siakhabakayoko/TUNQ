@@ -5,15 +5,12 @@ import { CalibratedSlider } from '@/components/typesafe-ui/CalibratedSlider';
 import { TechWindow } from '@/components/typesafe-ui/TechWindow';
 import {
   TrendingUp,
-  AlertTriangle,
   CheckCircle2,
   Calendar,
-  Layers,
-  ShieldCheck,
-  Building2,
-  ExternalLink,
+  ArrowLeft,
   Flame,
-  Clock
+  Clock,
+  FileText
 } from 'lucide-react';
 
 interface EvaluationResultsViewProps {
@@ -28,69 +25,82 @@ export const EvaluationResultsView: React.FC<EvaluationResultsViewProps> = ({
   const { project, financials, diagnosis, decision, actionPlan } = evaluation;
 
   return (
-    <div className="space-y-8 animate-fadeIn">
+    <div className="space-y-10 animate-fadeIn">
       {/* Top Controls / Action Bar */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 bg-secondary/60 border border-border p-3.5 font-mono text-xs">
-        <div className="flex items-center gap-3">
-          <span className="text-foreground font-bold">DOSSIER : #{evaluation.id}</span>
-          <span className="text-border">|</span>
-          <span className="text-foreground font-semibold">{project.title}</span>
-          <span className="text-muted-foreground">({project.regionId})</span>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-border pb-6">
+        <div>
+          <button
+            onClick={onReset}
+            className="inline-flex items-center gap-2 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors cursor-pointer mb-2"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            <span>Nouvelle évaluation</span>
+          </button>
+          <h1 className="text-2xl font-bold text-foreground font-heading">
+            {project.title}
+          </h1>
+          <p className="text-xs text-muted-foreground font-sans mt-0.5">
+            Dossier n° {evaluation.id} — Région : {project.regionId} — Secteur : {project.sectorId.replace('_', ' ')}
+          </p>
         </div>
+
         <button
           onClick={onReset}
-          className="px-3.5 py-1.5 bg-card hover:bg-muted text-foreground border border-border text-xs font-mono transition-all font-semibold"
+          className="px-4 py-2 bg-secondary hover:bg-muted text-foreground border border-border text-xs font-medium transition-all"
         >
-          [ ← NOUVELLE ÉVALUATION ]
+          Modifier les paramètres
         </button>
       </div>
 
       {/* ------------------------------------------------------------- */}
-      {/* 1. JEV SYSTEM ONE DECISION WINDOW */}
+      {/* 1. VERDICT & SCORING */}
       {/* ------------------------------------------------------------- */}
       <TechWindow
-        title="ARBITRAGE DÉCISIONNEL // TYPESAFE AI JEV"
-        badge={`${(decision.confidence * 100).toFixed(1)}% CALIBRÉ`}
+        title="Arbitrage décisionnel et évaluation des risques"
+        badge="Analyse prédictive"
         badgeColor={decision.verdict === 'GO' ? 'emerald' : decision.verdict === 'PIVOT' ? 'amber' : 'rose'}
       >
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           {/* Main Verdict Box */}
-          <div className="lg:col-span-5 flex flex-col justify-between">
+          <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
             <VerdictBadge
               verdict={decision.verdict}
               confidence={decision.confidence}
-              latencyMs={decision.executionLatencyMs}
               rationale={decision.coreRationale}
             />
 
-            {/* Noul Checks (Deterministic Probabilistic Checks) */}
-            <div className="mt-4 border border-border bg-secondary/30 p-3.5 font-mono text-xs space-y-2">
-              <div className="text-[10px] text-muted-foreground tracking-wider uppercase font-semibold mb-1">
-                VALIDATION DES CONTRAINTES CRITIQUES (NOUL PRIMITIVES)
+            {/* Critical Constraints */}
+            <div className="border border-border bg-card p-5 space-y-3 font-sans text-xs">
+              <div className="text-xs font-bold text-foreground uppercase tracking-wide font-mono border-b border-border pb-2">
+                Critères fondamentaux de viabilité
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Économie unitaire viable :</span>
-                <span className={`font-bold ${decision.noulChecks.unitEconomicsViable ? 'text-emerald-700' : 'text-rose-700'}`}>
-                  {decision.noulChecks.unitEconomicsViable ? 'OUI (Viable)' : 'NON (Déficit)'}
+
+              <div className="flex items-center justify-between py-1 border-b border-border/60">
+                <span className="text-muted-foreground">Économie unitaire :</span>
+                <span className={`font-semibold ${decision.noulChecks.unitEconomicsViable ? 'text-emerald-700' : 'text-rose-700'}`}>
+                  {decision.noulChecks.unitEconomicsViable ? 'Viable (marge positive)' : 'Déficitaire'}
                 </span>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Adéquation pouvoir d’achat local :</span>
-                <span className={`font-bold ${decision.noulChecks.localPurchasingPowerFit ? 'text-emerald-700' : 'text-amber-800'}`}>
-                  {decision.noulChecks.localPurchasingPowerFit ? 'OUI (Conforme)' : 'ATTENTION (Élevé)'}
+
+              <div className="flex items-center justify-between py-1 border-b border-border/60">
+                <span className="text-muted-foreground">Pouvoir d’achat local :</span>
+                <span className={`font-semibold ${decision.noulChecks.localPurchasingPowerFit ? 'text-emerald-700' : 'text-amber-800'}`}>
+                  {decision.noulChecks.localPurchasingPowerFit ? 'Adéquat' : 'Prix supérieur au panier moyen'}
                 </span>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">Trésorerie de démarrage suffisante :</span>
-                <span className={`font-bold ${decision.noulChecks.cashRunwaySufficient ? 'text-emerald-700' : 'text-rose-700'}`}>
-                  {decision.noulChecks.cashRunwaySufficient ? 'OUI (≥ 6 mois)' : 'NON (< Seuil)'}
+
+              <div className="flex items-center justify-between py-1 border-b border-border/60">
+                <span className="text-muted-foreground">Trésorerie de démarrage :</span>
+                <span className={`font-semibold ${decision.noulChecks.cashRunwaySufficient ? 'text-emerald-700' : 'text-rose-700'}`}>
+                  {decision.noulChecks.cashRunwaySufficient ? 'Sécurisée (≥ 6 mois)' : 'Insuffisante'}
                 </span>
               </div>
+
               {project.isUemoaExportTarget && (
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Scalabilité export UEMOA :</span>
-                  <span className="font-bold text-sky-800">
-                    {decision.noulChecks.uemoaCrossborderViable ? 'OUI (Prêt)' : 'À STRUCTURER'}
+                <div className="flex items-center justify-between py-1">
+                  <span className="text-muted-foreground">Potentiel export UEMOA :</span>
+                  <span className="font-semibold text-sky-800">
+                    {decision.noulChecks.uemoaCrossborderViable ? 'Favorable' : 'À consolider'}
                   </span>
                 </div>
               )}
@@ -98,45 +108,47 @@ export const EvaluationResultsView: React.FC<EvaluationResultsViewProps> = ({
           </div>
 
           {/* Calibrated Sliders Column */}
-          <div className="lg:col-span-7 space-y-1">
-            <div className="font-mono text-xs text-muted-foreground mb-2 flex items-center justify-between font-semibold">
-              <span>INDICATEURS ÉTALONNÉS PAR JEV</span>
-              <span className="text-[10px] text-muted-foreground">ÉCHELLE DÉCISIONNELLE 1.0 - 10.0</span>
+          <div className="lg:col-span-7 space-y-4">
+            <div className="border-b border-border pb-2 flex items-center justify-between text-xs text-muted-foreground font-sans">
+              <span className="font-semibold text-foreground uppercase tracking-wide font-mono">
+                Indicateurs sectoriels comparés
+              </span>
+              <span>Échelle de 1.0 à 10.0</span>
             </div>
 
             <CalibratedSlider
-              label="SCORE DE RENTABILITÉ & MARGES"
+              label="Rentabilité et marges brutes"
               score={decision.scores.profitabilityScore}
-              benchmarkLabel="Moyenne Secteur"
+              benchmarkLabel="Moyenne sectorielle"
               benchmarkScore={6.0}
             />
 
             <CalibratedSlider
-              label="ATTRACTIVITÉ DU MARCHÉ & BESOIN RÉEL"
+              label="Profondeur du besoin de marché"
               score={decision.scores.marketAttractivenessScore}
-              benchmarkLabel="Seuil Minimal"
+              benchmarkLabel="Seuil de viabilité"
               benchmarkScore={5.0}
             />
 
             <CalibratedSlider
-              label="SÉCURITÉ D’APPROVISIONNEMENT & INTRANTS"
+              label="Sécurité de la chaîne d'approvisionnement"
               score={decision.scores.supplyChainRiskScore}
-              benchmarkLabel="Alerte Risque"
+              benchmarkLabel="Seuil d'alerte"
               benchmarkScore={4.5}
             />
 
             <CalibratedSlider
-              label="PÉRENNITÉ SECTORIELLE (RGE ANSD SURVIE 3 ANS)"
+              label="Taux de pérennité à 3 ans (ANSD RGE-2)"
               score={decision.scores.sectorSurvivalScore}
-              benchmarkLabel="Moyenne Nationale"
+              benchmarkLabel="Moyenne nationale"
               benchmarkScore={5.1}
             />
 
             {project.isUemoaExportTarget && (
               <CalibratedSlider
-                label="POTENTIEL D’EXPANSION SOUS-RÉGIONALE (UEMOA)"
+                label="Potentiel d'expansion sous-régionale"
                 score={decision.scores.uemoaExportScore}
-                benchmarkLabel="Seuil d'entrée"
+                benchmarkLabel="Seuil d'accès"
                 benchmarkScore={5.5}
               />
             )}
@@ -145,101 +157,103 @@ export const EvaluationResultsView: React.FC<EvaluationResultsViewProps> = ({
       </TechWindow>
 
       {/* ------------------------------------------------------------- */}
-      {/* 2. FINANCIAL PROFITABILITY & BREAK-EVEN WINDOW */}
+      {/* 2. FINANCIAL PROFITABILITY & BREAK-EVEN */}
       {/* ------------------------------------------------------------- */}
       <TechWindow
-        title="INGÉNIERIE FINANCIÈRE // ANALYSE DE RENTABILITÉ & POINT MORT"
-        badge="FCFA XOF"
+        title="Analyse financière et seuil de rentabilité"
+        badge="Modélisation FCFA"
         badgeColor="neutral"
       >
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 font-mono">
-          <div className="bg-card border border-border p-3.5 shadow-xs">
-            <span className="text-[10px] text-muted-foreground block uppercase font-semibold">SEUIL DE RENTABILITÉ (UNITÉS)</span>
-            <span className="text-xl font-bold text-foreground block mt-1">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="border border-border bg-card p-5">
+            <span className="text-xs text-muted-foreground block font-sans">Seuil de rentabilité</span>
+            <span className="text-2xl font-bold text-foreground font-heading block mt-2">
               {financials.breakEvenMonthlyUnits.toLocaleString('fr-FR')}{' '}
-              <span className="text-xs text-muted-foreground font-normal">unités / mois</span>
+              <span className="text-xs font-normal text-muted-foreground font-sans">unités / mois</span>
             </span>
-            <span className="text-[10px] text-muted-foreground block mt-1">
-              Soit {Math.ceil(financials.breakEvenMonthlyUnits / 26)} unités / jour ouvré
+            <span className="text-xs text-muted-foreground block mt-1 font-sans">
+              Soit environ {Math.ceil(financials.breakEvenMonthlyUnits / 26)} unités / jour ouvré
             </span>
           </div>
 
-          <div className="bg-card border border-border p-3.5 shadow-xs">
-            <span className="text-[10px] text-muted-foreground block uppercase font-semibold">POINT MORT MENSUEL (CA CRITIQUE)</span>
-            <span className="text-xl font-bold text-emerald-700 block mt-1">
+          <div className="border border-border bg-card p-5">
+            <span className="text-xs text-muted-foreground block font-sans">Chiffre d'affaires critique</span>
+            <span className="text-2xl font-bold text-foreground font-heading block mt-2">
               {financials.breakEvenMonthlyRevenueFcfa.toLocaleString('fr-FR')}{' '}
-              <span className="text-xs text-muted-foreground font-normal">FCFA</span>
+              <span className="text-xs font-normal text-muted-foreground font-sans">FCFA</span>
             </span>
-            <span className="text-[10px] text-muted-foreground block mt-1">
-              Délai moyen d’atteinte : {financials.monthsToBreakEven} mois
+            <span className="text-xs text-muted-foreground block mt-1 font-sans">
+              Délai moyen d'atteinte : {financials.monthsToBreakEven} mois
             </span>
           </div>
 
-          <div className="bg-card border border-border p-3.5 shadow-xs">
-            <span className="text-[10px] text-muted-foreground block uppercase font-semibold">MARGE BRUTE RÉELLE VS ANSD</span>
-            <span className="text-xl font-bold text-foreground block mt-1">
+          <div className="border border-border bg-card p-5">
+            <span className="text-xs text-muted-foreground block font-sans">Marge brute estimée</span>
+            <span className="text-2xl font-bold text-foreground font-heading block mt-2">
               {financials.grossMarginPct}%
             </span>
-            <span className={`text-[10px] font-bold block mt-1 ${financials.marginVariancePct >= 0 ? 'text-emerald-700' : 'text-amber-800'}`}>
-              {financials.marginVariancePct >= 0 ? `+${financials.marginVariancePct}%` : `${financials.marginVariancePct}%`} vs RGE ({financials.sectorBenchmarkMarginPct}%)
+            <span className={`text-xs font-semibold block mt-1 font-sans ${financials.marginVariancePct >= 0 ? 'text-emerald-700' : 'text-amber-800'}`}>
+              {financials.marginVariancePct >= 0 ? `+${financials.marginVariancePct}%` : `${financials.marginVariancePct}%`} vs référence ({financials.sectorBenchmarkMarginPct}%)
             </span>
           </div>
 
-          <div className="bg-card border border-border p-3.5 shadow-xs">
-            <span className="text-[10px] text-muted-foreground block uppercase font-semibold">BFR & RÉSERVE DE SÉCURITÉ</span>
-            <span className="text-xl font-bold text-sky-800 block mt-1">
+          <div className="border border-border bg-card p-5">
+            <span className="text-xs text-muted-foreground block font-sans">Fonds de roulement recommandé</span>
+            <span className="text-2xl font-bold text-foreground font-heading block mt-2">
               {financials.workingCapitalReserveFcfa.toLocaleString('fr-FR')}{' '}
-              <span className="text-xs text-muted-foreground font-normal">FCFA</span>
+              <span className="text-xs font-normal text-muted-foreground font-sans">FCFA</span>
             </span>
-            <span className="text-[10px] text-muted-foreground block mt-1">
-              Couvre 4,5 mois de charges + stock
+            <span className="text-xs text-muted-foreground block mt-1 font-sans">
+              Couverture de sécurité conseillée
             </span>
           </div>
         </div>
 
-        {/* Stress Testing Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
-          <div className="border border-border bg-card p-4 shadow-xs">
-            <div className="flex items-center gap-2 font-bold text-foreground mb-2">
+        {/* Stress Testing */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="border border-border bg-card p-5 space-y-3">
+            <div className="flex items-center gap-2 font-bold text-foreground text-sm font-sans">
               <Flame className="h-4 w-4 text-amber-600" />
-              STRESS-TEST 1 : CHOC D’INFLATION SUR INTRANTS (+15%)
+              <span>Test de résistance : Inflation des intrants (+15%)</span>
             </div>
-            <p className="text-muted-foreground text-[11px] font-sans mb-3 leading-relaxed">
-              Simule une flambée des prix matières ou de l'énergie conforme aux pics de l'IPPI/IHPC au Sénégal.
+            <p className="text-xs text-muted-foreground font-sans leading-relaxed">
+              Simulation d'une hausse brutale des coûts matières ou de l'énergie conforme aux historiques de l'ANSD.
             </p>
-            <div className="flex justify-between py-1.5 border-t border-border">
-              <span className="text-muted-foreground">Marge brute après choc :</span>
-              <span className={`font-bold ${financials.stressTestInflation.newGrossMarginPct > 15 ? 'text-emerald-700' : 'text-rose-700'}`}>
-                {financials.stressTestInflation.newGrossMarginPct}%
-              </span>
-            </div>
-            <div className="flex justify-between py-1.5 border-t border-border">
-              <span className="text-muted-foreground">Le modèle reste-t-il bénéficiaire ?</span>
-              <span className={`font-bold ${financials.stressTestInflation.isStillProfitable ? 'text-emerald-700' : 'text-rose-700'}`}>
-                {financials.stressTestInflation.isStillProfitable ? 'OUI (Marge positive)' : 'NON (Passe en perte)'}
-              </span>
+            <div className="pt-2 border-t border-border space-y-2 text-xs font-sans">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Marge brute après choc :</span>
+                <span className="font-mono font-bold text-foreground">{financials.stressTestInflation.newGrossMarginPct}%</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Maintien de la rentabilité :</span>
+                <span className={`font-semibold ${financials.stressTestInflation.isStillProfitable ? 'text-emerald-700' : 'text-rose-700'}`}>
+                  {financials.stressTestInflation.isStillProfitable ? 'Oui (modèle résilient)' : 'Non (déficit d’exploitation)'}
+                </span>
+              </div>
             </div>
           </div>
 
-          <div className="border border-border bg-card p-4 shadow-xs">
-            <div className="flex items-center gap-2 font-bold text-foreground mb-2">
+          <div className="border border-border bg-card p-5 space-y-3">
+            <div className="flex items-center gap-2 font-bold text-foreground text-sm font-sans">
               <Clock className="h-4 w-4 text-sky-700" />
-              STRESS-TEST 2 : RETARD COMMERCIAL (90 JOURS SANS VENTES)
+              <span>Test de résistance : Démarrage différé (90 jours)</span>
             </div>
-            <p className="text-muted-foreground text-[11px] font-sans mb-3 leading-relaxed">
-              Mesure la trésorerie purement requise pour tenir en cas de lenteur d’amorçage client au Sénégal.
+            <p className="text-xs text-muted-foreground font-sans leading-relaxed">
+              Estimation du besoin de trésorerie strict en cas de cycle de prospection client plus long que prévu.
             </p>
-            <div className="flex justify-between py-1.5 border-t border-border">
-              <span className="text-muted-foreground">Trésorerie d’urgence 90 jours :</span>
-              <span className="text-sky-800 font-bold">
-                {financials.stressTestDelay.requiredCashRunwayFcfa.toLocaleString('fr-FR')} FCFA
-              </span>
-            </div>
-            <div className="flex justify-between py-1.5 border-t border-border">
-              <span className="text-muted-foreground">Charges fixes mensuelles incompressibles :</span>
-              <span className="text-foreground font-semibold">
-                {project.monthlyFixedCostsFcfa.toLocaleString('fr-FR')} FCFA / mois
-              </span>
+            <div className="pt-2 border-t border-border space-y-2 text-xs font-sans">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Trésorerie d'urgence requise :</span>
+                <span className="font-mono font-bold text-foreground">
+                  {financials.stressTestDelay.requiredCashRunwayFcfa.toLocaleString('fr-FR')} FCFA
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Charges fixes incompressibles :</span>
+                <span className="font-mono font-semibold text-foreground">
+                  {project.monthlyFixedCostsFcfa.toLocaleString('fr-FR')} FCFA / mois
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -249,124 +263,127 @@ export const EvaluationResultsView: React.FC<EvaluationResultsViewProps> = ({
       {/* 3. STRATEGIC DIAGNOSIS & REGIONAL TAM/SAM/SOM */}
       {/* ------------------------------------------------------------- */}
       <TechWindow
-        title="DIAGNOSTIC STRATÉGIQUE // PESTEL SÉNÉGAL, 5 FORCES & TAM/SAM/SOM"
-        badge="RGPH-5 ANSD"
-        badgeColor="emerald"
+        title="Marché adressable et diagnostic stratégique"
+        badge="Données démographiques ANSD"
+        badgeColor="neutral"
       >
-        {/* TAM / SAM / SOM Header */}
-        <div className="bg-secondary/40 border border-border p-4 mb-6 font-mono">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-3">
-            <span className="font-bold text-foreground text-xs uppercase tracking-wide">
-              MÉTRIQUES DE TAILLE DE MARCHÉ (TAM / SAM / SOM EN FCFA)
-            </span>
-            <span className="text-[10px] text-muted-foreground font-semibold">
-              POPULATION CIBLE : {diagnosis.tamSamSom.targetPopulation.toLocaleString('fr-FR')} HABITANTS
+        {/* TAM / SAM / SOM */}
+        <div className="border border-border bg-card p-6 mb-8 space-y-4">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-border pb-3">
+            <h3 className="text-xs font-bold text-foreground uppercase tracking-wider font-mono">
+              Dimensionnement du marché (FCFA)
+            </h3>
+            <span className="text-xs text-muted-foreground font-sans">
+              Population du pôle : {diagnosis.tamSamSom.targetPopulation.toLocaleString('fr-FR')} habitants
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <div className="border border-border p-3 bg-card shadow-xs">
-              <span className="text-[10px] text-muted-foreground block font-semibold">TAM (MARCHÉ TOTAL ADRESSABLE)</span>
-              <span className="text-lg font-bold text-foreground block mt-1 font-heading">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="border border-border p-4 bg-background">
+              <span className="text-xs text-muted-foreground font-sans block">TAM — Marché total</span>
+              <span className="text-2xl font-bold text-foreground font-heading block mt-2">
                 {(diagnosis.tamSamSom.tamFcfa / 1000000).toFixed(1)} M FCFA
               </span>
-              <span className="text-[10px] text-muted-foreground block">Dépense annuelle globale estimée</span>
+              <span className="text-xs text-muted-foreground font-sans block mt-1">Dépense annuelle estimée</span>
             </div>
-            <div className="border border-border p-3 bg-card shadow-xs">
-              <span className="text-[10px] text-muted-foreground block font-semibold">SAM (MARCHÉ DISPONIBLE RÉGIONAL)</span>
-              <span className="text-lg font-bold text-emerald-700 block mt-1 font-heading">
+
+            <div className="border border-border p-4 bg-background">
+              <span className="text-xs text-muted-foreground font-sans block">SAM — Marché disponible</span>
+              <span className="text-2xl font-bold text-foreground font-heading block mt-2">
                 {(diagnosis.tamSamSom.samFcfa / 1000000).toFixed(1)} M FCFA
               </span>
-              <span className="text-[10px] text-muted-foreground block">Cible sur le pôle {project.regionId}</span>
+              <span className="text-xs text-muted-foreground font-sans block mt-1">Cible régionale prioritaire</span>
             </div>
-            <div className="border border-border p-3 bg-card shadow-xs">
-              <span className="text-[10px] text-muted-foreground block font-semibold">SOM (OBJECTIF AN 1 RÉALISTE - 2.5%)</span>
-              <span className="text-lg font-bold text-sky-800 block mt-1 font-heading">
+
+            <div className="border border-border p-4 bg-background">
+              <span className="text-xs text-muted-foreground font-sans block">SOM — Objectif an 1 (2.5%)</span>
+              <span className="text-2xl font-bold text-foreground font-heading block mt-2">
                 {(diagnosis.tamSamSom.somFcfa / 1000000).toFixed(1)} M FCFA
               </span>
-              <span className="text-[10px] text-muted-foreground block">Part capturable à l’amorçage</span>
+              <span className="text-xs text-muted-foreground font-sans block mt-1">Part capturable initiale</span>
             </div>
           </div>
-          <div className="text-[11px] text-muted-foreground mt-3 font-sans italic">
-            Note méthodologique : {diagnosis.tamSamSom.explanation}
-          </div>
+
+          <p className="text-xs text-muted-foreground font-sans italic pt-2">
+            Méthodologie : {diagnosis.tamSamSom.explanation}
+          </p>
         </div>
 
         {/* SWOT Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <div className="border border-emerald-300 bg-emerald-50/70 p-4">
-            <span className="font-mono text-xs font-bold text-emerald-800 block mb-2">
-              [FORCES // ATOUTS COMPÉTITIFS]
-            </span>
-            <ul className="text-xs text-foreground space-y-1.5 list-disc list-inside font-sans">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div className="border border-border bg-card p-5 space-y-3">
+            <h4 className="text-xs font-bold text-emerald-800 uppercase tracking-wider font-mono">
+              Forces & atouts
+            </h4>
+            <ul className="text-xs text-foreground/90 space-y-2 list-disc list-inside font-sans">
               {diagnosis.swot.strengths.map((s, idx) => (
-                <li key={idx}>{s}</li>
+                <li key={idx} className="leading-relaxed">{s}</li>
               ))}
             </ul>
           </div>
 
-          <div className="border border-rose-300 bg-rose-50/70 p-4">
-            <span className="font-mono text-xs font-bold text-rose-800 block mb-2">
-              [FAIBLESSES // VULNÉRABILITÉS INTERNES]
-            </span>
-            <ul className="text-xs text-foreground space-y-1.5 list-disc list-inside font-sans">
+          <div className="border border-border bg-card p-5 space-y-3">
+            <h4 className="text-xs font-bold text-rose-800 uppercase tracking-wider font-mono">
+              Faiblesses & vigilances
+            </h4>
+            <ul className="text-xs text-foreground/90 space-y-2 list-disc list-inside font-sans">
               {diagnosis.swot.weaknesses.map((w, idx) => (
-                <li key={idx}>{w}</li>
+                <li key={idx} className="leading-relaxed">{w}</li>
               ))}
             </ul>
           </div>
 
-          <div className="border border-sky-300 bg-sky-50/70 p-4">
-            <span className="font-mono text-xs font-bold text-sky-800 block mb-2">
-              [OPPORTUNITÉS // DYNAMIQUE DU MARCHÉ]
-            </span>
-            <ul className="text-xs text-foreground space-y-1.5 list-disc list-inside font-sans">
+          <div className="border border-border bg-card p-5 space-y-3">
+            <h4 className="text-xs font-bold text-sky-800 uppercase tracking-wider font-mono">
+              Opportunités de marché
+            </h4>
+            <ul className="text-xs text-foreground/90 space-y-2 list-disc list-inside font-sans">
               {diagnosis.swot.opportunities.map((o, idx) => (
-                <li key={idx}>{o}</li>
+                <li key={idx} className="leading-relaxed">{o}</li>
               ))}
             </ul>
           </div>
 
-          <div className="border border-amber-300 bg-amber-50/70 p-4">
-            <span className="font-mono text-xs font-bold text-amber-800 block mb-2">
-              [MENACES // RISQUES MACRO-ÉCONOMIQUES]
-            </span>
-            <ul className="text-xs text-foreground space-y-1.5 list-disc list-inside font-sans">
+          <div className="border border-border bg-card p-5 space-y-3">
+            <h4 className="text-xs font-bold text-amber-800 uppercase tracking-wider font-mono">
+              Menaces & risques externes
+            </h4>
+            <ul className="text-xs text-foreground/90 space-y-2 list-disc list-inside font-sans">
               {diagnosis.swot.threats.map((t, idx) => (
-                <li key={idx}>{t}</li>
+                <li key={idx} className="leading-relaxed">{t}</li>
               ))}
             </ul>
           </div>
         </div>
 
         {/* PESTEL Senegal layout */}
-        <div className="border border-border bg-card p-4 font-mono text-xs shadow-xs">
-          <div className="text-xs font-bold text-foreground mb-3 pb-2 border-b border-border">
-            [CADRE PESTEL CONTEXTUALISÉ AU SÉNÉGAL & À L'UEMOA]
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-sans text-xs">
-            <div className="p-2.5 bg-secondary/30 border border-border">
-              <span className="font-mono text-[11px] text-foreground font-bold block mb-1">POLITIQUE :</span>
+        <div className="border border-border bg-card p-6 space-y-4">
+          <h4 className="text-xs font-bold text-foreground uppercase tracking-wider font-mono border-b border-border pb-3">
+            Contexte macroéconomique (PESTEL Sénégal & UEMOA)
+          </h4>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 font-sans text-xs">
+            <div className="p-3 bg-secondary/40 border border-border">
+              <span className="font-semibold text-foreground block mb-1">Politique & Réglementation :</span>
               <p className="text-muted-foreground leading-relaxed">{diagnosis.pestelSenegal.political}</p>
             </div>
-            <div className="p-2.5 bg-secondary/30 border border-border">
-              <span className="font-mono text-[11px] text-foreground font-bold block mb-1">ÉCONOMIQUE :</span>
+            <div className="p-3 bg-secondary/40 border border-border">
+              <span className="font-semibold text-foreground block mb-1">Économie & Pouvoir d'achat :</span>
               <p className="text-muted-foreground leading-relaxed">{diagnosis.pestelSenegal.economic}</p>
             </div>
-            <div className="p-2.5 bg-secondary/30 border border-border">
-              <span className="font-mono text-[11px] text-foreground font-bold block mb-1">SOCIOCULTUREL :</span>
+            <div className="p-3 bg-secondary/40 border border-border">
+              <span className="font-semibold text-foreground block mb-1">Socioculturel & Usages :</span>
               <p className="text-muted-foreground leading-relaxed">{diagnosis.pestelSenegal.social}</p>
             </div>
-            <div className="p-2.5 bg-secondary/30 border border-border">
-              <span className="font-mono text-[11px] text-foreground font-bold block mb-1">TECHNOLOGIQUE :</span>
+            <div className="p-3 bg-secondary/40 border border-border">
+              <span className="font-semibold text-foreground block mb-1">Technologie & Connectivité :</span>
               <p className="text-muted-foreground leading-relaxed">{diagnosis.pestelSenegal.technological}</p>
             </div>
-            <div className="p-2.5 bg-secondary/30 border border-border">
-              <span className="font-mono text-[11px] text-foreground font-bold block mb-1">ENVIRONNEMENTAL :</span>
+            <div className="p-3 bg-secondary/40 border border-border">
+              <span className="font-semibold text-foreground block mb-1">Environnement & Climat :</span>
               <p className="text-muted-foreground leading-relaxed">{diagnosis.pestelSenegal.environmental}</p>
             </div>
-            <div className="p-2.5 bg-secondary/30 border border-border">
-              <span className="font-mono text-[11px] text-foreground font-bold block mb-1">LÉGAL & FISCAL :</span>
+            <div className="p-3 bg-secondary/40 border border-border">
+              <span className="font-semibold text-foreground block mb-1">Fiscalité & SYSCOHADA :</span>
               <p className="text-muted-foreground leading-relaxed">{diagnosis.pestelSenegal.legal}</p>
             </div>
           </div>
@@ -377,14 +394,14 @@ export const EvaluationResultsView: React.FC<EvaluationResultsViewProps> = ({
       {/* 4. GOOGLE GEMINI STRATEGIC REPORT & 30/60/90 ROADMAP */}
       {/* ------------------------------------------------------------- */}
       <TechWindow
-        title="SYNTHÈSE EXÉCUTIVE & PLAN D'ACTION OPÉRATIONNEL // GOOGLE GEMINI"
-        badge="ROADMAP 30/60/90"
-        badgeColor="emerald"
+        title="Synthèse stratégique et plan d'exécution"
+        badge="Feuille de route 90 jours"
+        badgeColor="neutral"
       >
         {/* Executive Summary */}
-        <div className="bg-secondary/40 border-l-4 border-primary p-4 mb-6">
-          <span className="font-mono text-xs text-foreground block uppercase tracking-wider mb-1 font-bold">
-            RÉSUMÉ EXÉCUTIF POUR L'ENTREPRENEUR & INVESTISSEURS
+        <div className="border-l-2 border-primary bg-secondary/30 p-6 mb-8">
+          <span className="text-xs text-foreground uppercase tracking-wider block font-bold font-mono mb-2">
+            Recommandation générale
           </span>
           <p className="text-sm text-foreground/90 leading-relaxed font-sans">
             {actionPlan.executiveSummary}
@@ -392,22 +409,22 @@ export const EvaluationResultsView: React.FC<EvaluationResultsViewProps> = ({
         </div>
 
         {/* 30 / 60 / 90 Days Timeline */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 font-mono text-xs">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {/* Phase 30 Days */}
-          <div className="border border-border bg-card p-4 shadow-xs">
-            <div className="flex items-center gap-1.5 text-emerald-700 font-bold mb-1">
-              <Calendar className="h-4 w-4" /> J+1 À J+30
+          <div className="border border-border bg-card p-5 space-y-3">
+            <div className="flex items-center gap-1.5 text-emerald-700 font-bold text-xs font-mono">
+              <Calendar className="h-4 w-4" /> 1er mois (J+1 à J+30)
             </div>
-            <div className="text-xs text-foreground font-semibold mb-2">
+            <h5 className="text-sm font-bold text-foreground font-sans">
               {actionPlan.phase30Days.title}
-            </div>
-            <p className="text-[11px] text-muted-foreground font-sans mb-3 leading-relaxed">
+            </h5>
+            <p className="text-xs text-muted-foreground font-sans leading-relaxed">
               {actionPlan.phase30Days.focus}
             </p>
-            <div className="space-y-2 border-t border-border pt-2">
+            <div className="space-y-2 border-t border-border pt-3">
               {actionPlan.phase30Days.milestones.map((m, idx) => (
-                <div key={idx} className="flex items-start gap-1.5 text-[11px] text-foreground/90 font-sans">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                <div key={idx} className="flex items-start gap-2 text-xs text-foreground/90 font-sans">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
                   <span>{m}</span>
                 </div>
               ))}
@@ -415,20 +432,20 @@ export const EvaluationResultsView: React.FC<EvaluationResultsViewProps> = ({
           </div>
 
           {/* Phase 60 Days */}
-          <div className="border border-border bg-card p-4 shadow-xs">
-            <div className="flex items-center gap-1.5 text-amber-800 font-bold mb-1">
-              <Calendar className="h-4 w-4" /> J+31 À J+60
+          <div className="border border-border bg-card p-5 space-y-3">
+            <div className="flex items-center gap-1.5 text-amber-800 font-bold text-xs font-mono">
+              <Calendar className="h-4 w-4" /> 2e mois (J+31 à J+60)
             </div>
-            <div className="text-xs text-foreground font-semibold mb-2">
+            <h5 className="text-sm font-bold text-foreground font-sans">
               {actionPlan.phase60Days.title}
-            </div>
-            <p className="text-[11px] text-muted-foreground font-sans mb-3 leading-relaxed">
+            </h5>
+            <p className="text-xs text-muted-foreground font-sans leading-relaxed">
               {actionPlan.phase60Days.focus}
             </p>
-            <div className="space-y-2 border-t border-border pt-2">
+            <div className="space-y-2 border-t border-border pt-3">
               {actionPlan.phase60Days.milestones.map((m, idx) => (
-                <div key={idx} className="flex items-start gap-1.5 text-[11px] text-foreground/90 font-sans">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-amber-700 shrink-0 mt-0.5" />
+                <div key={idx} className="flex items-start gap-2 text-xs text-foreground/90 font-sans">
+                  <CheckCircle2 className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
                   <span>{m}</span>
                 </div>
               ))}
@@ -436,20 +453,20 @@ export const EvaluationResultsView: React.FC<EvaluationResultsViewProps> = ({
           </div>
 
           {/* Phase 90 Days */}
-          <div className="border border-border bg-card p-4 shadow-xs">
-            <div className="flex items-center gap-1.5 text-sky-800 font-bold mb-1">
-              <Calendar className="h-4 w-4" /> J+61 À J+90
+          <div className="border border-border bg-card p-5 space-y-3">
+            <div className="flex items-center gap-1.5 text-sky-800 font-bold text-xs font-mono">
+              <Calendar className="h-4 w-4" /> 3e mois (J+61 à J+90)
             </div>
-            <div className="text-xs text-foreground font-semibold mb-2">
+            <h5 className="text-sm font-bold text-foreground font-sans">
               {actionPlan.phase90Days.title}
-            </div>
-            <p className="text-[11px] text-muted-foreground font-sans mb-3 leading-relaxed">
+            </h5>
+            <p className="text-xs text-muted-foreground font-sans leading-relaxed">
               {actionPlan.phase90Days.focus}
             </p>
-            <div className="space-y-2 border-t border-border pt-2">
+            <div className="space-y-2 border-t border-border pt-3">
               {actionPlan.phase90Days.milestones.map((m, idx) => (
-                <div key={idx} className="flex items-start gap-1.5 text-[11px] text-foreground/90 font-sans">
-                  <CheckCircle2 className="h-3.5 w-3.5 text-sky-700 shrink-0 mt-0.5" />
+                <div key={idx} className="flex items-start gap-2 text-xs text-foreground/90 font-sans">
+                  <CheckCircle2 className="h-4 w-4 text-sky-700 shrink-0 mt-0.5" />
                   <span>{m}</span>
                 </div>
               ))}
@@ -458,18 +475,20 @@ export const EvaluationResultsView: React.FC<EvaluationResultsViewProps> = ({
         </div>
 
         {/* Institutional Proof / Citations Box */}
-        <div className="border border-border bg-card p-4 font-mono text-xs shadow-xs">
-          <div className="text-muted-foreground font-semibold mb-3 flex items-center justify-between pb-2 border-b border-border">
-            <span className="text-foreground font-bold">[PREUVES & CITATIONS INSTITUTIONNELLES VÉRIFIÉES]</span>
-            <span className="text-[10px] text-muted-foreground">SOURCÉ SUR BASES OFFICIELLES</span>
+        <div className="border border-border bg-card p-6 space-y-4">
+          <div className="border-b border-border pb-3 flex items-center justify-between text-xs">
+            <span className="font-bold text-foreground uppercase tracking-wide font-mono">
+              Références et sources certifiées
+            </span>
+            <span className="text-muted-foreground font-sans">Bases officielles</span>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {actionPlan.institutionalCitations.map((c, idx) => (
-              <div key={idx} className="border border-border p-3 bg-secondary/30">
-                <div className="text-[11px] font-bold text-foreground">{c.institution}</div>
-                <div className="text-[10px] text-primary font-semibold">{c.sourceDocument}</div>
-                <div className="text-[11px] text-foreground/90 mt-1 font-sans">{c.keyMetric}</div>
-                <div className="text-[9px] text-muted-foreground mt-1 uppercase font-mono">{c.domain}</div>
+              <div key={idx} className="border border-border p-4 bg-secondary/20 space-y-1">
+                <div className="text-xs font-bold text-foreground font-sans">{c.institution}</div>
+                <div className="text-xs text-primary font-medium">{c.sourceDocument}</div>
+                <div className="text-xs text-muted-foreground font-sans pt-1">{c.keyMetric}</div>
               </div>
             ))}
           </div>
@@ -478,3 +497,4 @@ export const EvaluationResultsView: React.FC<EvaluationResultsViewProps> = ({
     </div>
   );
 };
+

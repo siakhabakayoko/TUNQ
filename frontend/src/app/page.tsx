@@ -44,69 +44,43 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col font-mono selection:bg-primary selection:text-primary-foreground">
+    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans selection:bg-primary selection:text-primary-foreground">
       {/* Top Navigation */}
       <HeaderNav activeView={activeView} onSelectView={setActiveView} />
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-4 md:p-8 space-y-6">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-6 py-10 space-y-10">
         {/* VIEW 1: STUDIO DE DÉCISION */}
         {activeView === 'decision' && (
-          <div className="space-y-6">
+          <div className="space-y-10">
             {!evaluation ? (
               <>
-                {/* Hero Box */}
-                <div className="border border-border bg-card p-6 md:p-8 shadow-xs relative overflow-hidden">
-                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                    <div className="max-w-2xl">
-                      <div className="inline-flex items-center gap-2 border border-border bg-secondary px-2.5 py-1 text-[11px] text-foreground uppercase tracking-widest mb-3 font-mono font-semibold">
-                        <Cpu className="h-3.5 w-3.5 text-primary" /> MOTEUR DE DÉCISION DÉTERMINISTE // SYSTEM ONE SÉNÉGAL
-                      </div>
-
-                      <h1 className="text-3xl md:text-5xl font-black tracking-tight text-foreground leading-[1.15] font-heading">
-                        Prouver la rentabilité.
-                        <span className="block text-primary">Trancher sans complaisance.</span>
-                      </h1>
-
-                      <p className="text-sm text-muted-foreground leading-relaxed font-sans mt-3">
-                        Confrontez votre projet aux données certifiées de l'<strong>ANSD</strong> (IHPC 2023, Recensement RGPH-5, pérennité RGE-2) et aux flux transfrontaliers <strong>UEMOA</strong>. Arbitrage froid par <strong>Jev (TypeSafe AI)</strong> et plan d'action rédigé par <strong>Google Gemini</strong>.
-                      </p>
-
-                      <div className="flex flex-wrap gap-2.5 mt-5 text-[11px] font-mono">
-                        <div className="flex items-center gap-2 border border-border bg-secondary/80 px-2.5 py-1 text-foreground">
-                          <span className="h-2 w-2 bg-emerald-600 inline-block" />
-                          <span>ZÉRO HALLUCINATION : SCORING TYPÉ</span>
-                        </div>
-                        <div className="flex items-center gap-2 border border-border bg-secondary/80 px-2.5 py-1 text-foreground">
-                          <span className="h-2 w-2 bg-sky-600 inline-block" />
-                          <span>BENCHMARKS ANSD 2024-2026</span>
-                        </div>
-                        <div className="flex items-center gap-2 border border-border bg-secondary/80 px-2.5 py-1 text-foreground">
-                          <span className="h-2 w-2 bg-amber-600 inline-block" />
-                          <span>STRESS-TESTS D’INFLATION FCFA</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Logo Display in Hero */}
-                    <div className="hidden lg:flex flex-col items-center justify-center p-6 bg-secondary/40 border border-border">
-                      <TunqLogo className="h-14 w-auto text-foreground" fill="currentColor" />
-                      <span className="text-[10px] text-muted-foreground font-mono mt-3 tracking-widest uppercase font-semibold">
-                        SÉNÉGAL // UEMOA SYSTEM
-                      </span>
-                    </div>
+                {/* Clean, Formal, Airy Hero */}
+                <div className="text-center max-w-3xl mx-auto space-y-4 py-4">
+                  <div className="inline-flex items-center gap-2 border border-border bg-secondary px-3 py-1 text-xs text-muted-foreground font-mono">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-600 inline-block" />
+                    Données officielles ANSD (RGPH-5, RGE-2, IHPC) & UEMOA
                   </div>
+
+                  <h1 className="text-3xl md:text-5xl font-black tracking-tight text-foreground leading-tight font-heading">
+                    Évaluez la viabilité de votre projet
+                    <span className="block text-primary">avec rigueur et précision.</span>
+                  </h1>
+
+                  <p className="text-base text-muted-foreground leading-relaxed font-sans max-w-2xl mx-auto">
+                    Confrontez vos hypothèses de prix et de coûts aux statistiques réelles du marché sénégalais. Obtenez un arbitrage objectif, votre seuil de rentabilité et une feuille de route opérationnelle.
+                  </p>
                 </div>
 
-                {/* Form Window */}
+                {/* Form Section */}
                 <TechWindow
-                  title="CONFIGURATION DU PROJET & MODÉLISATION FINANCIÈRE"
-                  badge="FORMULAIRE ACTIF"
-                  badgeColor="emerald"
+                  title="Paramètres du projet et modèle financier"
+                  badge="Formulaire d'évaluation"
+                  badgeColor="neutral"
                 >
                   {errorMsg && (
-                    <div className="mb-4 p-3 bg-destructive/10 border border-destructive text-destructive font-mono text-xs">
-                      [ERREUR] : {errorMsg}
+                    <div className="mb-6 p-4 bg-destructive/10 border border-destructive text-destructive text-sm font-medium">
+                      {errorMsg}
                     </div>
                   )}
 
@@ -129,19 +103,19 @@ export default function Home() {
         {activeView === 'dataroom' && <DataRoomManager />}
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border bg-secondary py-3 px-4 text-muted-foreground font-mono text-[11px]">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <span className="text-foreground font-bold">[START] TUNQ</span>
-            <span>// Plateforme d'Intelligence Économique & d'Arbitrage Stratégique</span>
+      {/* Clean Formal Footer */}
+      <footer className="border-t border-border bg-card py-6 px-6 text-muted-foreground text-xs font-sans mt-auto">
+        <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2.5">
+            <span className="text-foreground font-bold tracking-tight font-heading">TUNQ</span>
+            <span>— Plateforme d'intelligence économique et d'arbitrage financier</span>
           </div>
-          <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
-            <span>ANSD (senegal.opendataforafrica.org)</span>
+          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+            <span>Sources : ANSD Sénégal</span>
             <span>•</span>
             <span>BCEAO / UEMOA</span>
             <span>•</span>
-            <span>TypeSafe AI Jev</span>
+            <span>SYSCOHADA</span>
           </div>
         </div>
       </footer>
