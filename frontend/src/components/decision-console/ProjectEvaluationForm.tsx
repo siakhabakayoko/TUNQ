@@ -119,10 +119,11 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
         {/* Left Column: Scope & Geography */}
         <div className="space-y-5">
           <div className="space-y-1.5">
-            <label className="block text-xs font-semibold text-foreground font-sans">
+            <label htmlFor="field-project-title" className="block text-xs font-semibold text-foreground font-sans">
               Nom du projet <span className="text-destructive">*</span>
             </label>
             <input
+              id="field-project-title"
               type="text"
               required
               value={form.title}
@@ -134,10 +135,11 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
-              <label className="block text-xs font-semibold text-foreground font-sans">
+              <label htmlFor="field-sector" className="block text-xs font-semibold text-foreground font-sans">
                 Secteur d'activité <span className="text-destructive">*</span>
               </label>
               <select
+                id="field-sector"
                 value={form.sectorId}
                 onChange={(e) => setForm({ ...form, sectorId: e.target.value as SectorId })}
                 className="w-full bg-background border border-input px-3 py-2.5 text-xs text-foreground font-sans focus:border-primary focus:outline-hidden"
@@ -151,10 +153,11 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
             </div>
 
             <div className="space-y-1.5">
-              <label className="block text-xs font-semibold text-foreground font-sans">
+              <label htmlFor="field-region" className="block text-xs font-semibold text-foreground font-sans">
                 Région principale <span className="text-destructive">*</span>
               </label>
               <select
+                id="field-region"
                 value={form.regionId}
                 onChange={(e) => setForm({ ...form, regionId: e.target.value as RegionId })}
                 className="w-full bg-background border border-input px-3 py-2.5 text-xs text-foreground font-sans focus:border-primary focus:outline-hidden"
@@ -169,10 +172,11 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
           </div>
 
           <div className="space-y-1.5">
-            <label className="block text-xs font-semibold text-foreground font-sans">
+            <label htmlFor="field-description" className="block text-xs font-semibold text-foreground font-sans">
               Description de l'activité & proposition de valeur
             </label>
             <textarea
+              id="field-description"
               rows={3}
               value={form.description}
               onChange={(e) => setForm({ ...form, description: e.target.value })}
@@ -184,14 +188,15 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
           {/* UEMOA Export Target Toggle */}
           <div className="border border-border p-4 bg-secondary/30 flex items-start justify-between gap-4">
             <div className="space-y-0.5">
-              <div className="text-xs font-semibold text-foreground font-sans">
+              <label htmlFor="field-uemoa-export" className="text-xs font-semibold text-foreground font-sans cursor-pointer block">
                 Viser également un marché export UEMOA
-              </div>
+              </label>
               <div className="text-xs text-muted-foreground font-sans">
                 Permet d'évaluer le marché sous-régional élargi et les corridors commerciaux.
               </div>
             </div>
             <input
+              id="field-uemoa-export"
               type="checkbox"
               checked={form.isUemoaExportTarget}
               onChange={(e) => setForm({ ...form, isUemoaExportTarget: e.target.checked })}
@@ -201,10 +206,11 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
 
           {form.isUemoaExportTarget && (
             <div className="space-y-1.5">
-              <label className="block text-xs font-semibold text-foreground font-sans">
+              <label htmlFor="field-uemoa-country" className="block text-xs font-semibold text-foreground font-sans">
                 Pays cible prioritaire dans l'UEMOA
               </label>
               <select
+                id="field-uemoa-country"
                 value={form.uemoaTargetCountry || 'CI'}
                 onChange={(e) => setForm({ ...form, uemoaTargetCountry: e.target.value as CountryCode })}
                 className="w-full bg-background border border-input px-3 py-2.5 text-xs text-foreground font-sans focus:border-primary focus:outline-hidden"
@@ -228,11 +234,12 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="block text-xs font-medium text-muted-foreground font-sans">
+                <label htmlFor="field-unit-price" className="block text-xs font-medium text-muted-foreground font-sans">
                   Prix de vente unitaire
                 </label>
                 <div className="relative">
                   <input
+                    id="field-unit-price"
                     type="number"
                     required
                     min={1}
@@ -245,11 +252,12 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
               </div>
 
               <div className="space-y-1.5">
-                <label className="block text-xs font-medium text-muted-foreground font-sans">
+                <label htmlFor="field-unit-cost" className="block text-xs font-medium text-muted-foreground font-sans">
                   Coût de revient unitaire
                 </label>
                 <div className="relative">
                   <input
+                    id="field-unit-cost"
                     type="number"
                     required
                     min={0}
@@ -263,11 +271,12 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
             </div>
 
             <div className="space-y-1.5">
-              <label className="block text-xs font-medium text-muted-foreground font-sans">
+              <label htmlFor="field-fixed-costs" className="block text-xs font-medium text-muted-foreground font-sans">
                 Charges fixes mensuelles (loyer, salaires, énergie)
               </label>
               <div className="relative">
                 <input
+                  id="field-fixed-costs"
                   type="number"
                   required
                   min={1}
@@ -280,10 +289,11 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
             </div>
 
             <div className="space-y-1.5">
-              <label className="block text-xs font-medium text-muted-foreground font-sans">
+              <label htmlFor="field-sales-volume" className="block text-xs font-medium text-muted-foreground font-sans">
                 Volume de ventes mensuel prévisionnel (unités)
               </label>
               <input
+                id="field-sales-volume"
                 type="number"
                 required
                 min={1}
