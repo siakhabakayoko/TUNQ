@@ -96,12 +96,12 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Quick-Load Presets Bar */}
-      <div className="bg-[#11141A] border border-[#21262D] p-3 font-mono text-xs">
-        <div className="flex items-center justify-between mb-2 text-zinc-400">
-          <span className="flex items-center gap-1.5 font-semibold text-zinc-300">
-            <Sparkles className="h-3.5 w-3.5 text-[#03FFB2]" /> MODÈLES ÉCONOMIQUES ÉTALONS (PRESETS)
+      <div className="bg-secondary/40 border border-border p-3 font-mono text-xs">
+        <div className="flex items-center justify-between mb-2 text-muted-foreground">
+          <span className="flex items-center gap-1.5 font-semibold text-foreground">
+            <Sparkles className="h-3.5 w-3.5 text-primary" /> MODÈLES ÉCONOMIQUES ÉTALONS (PRESETS)
           </span>
-          <span className="text-[10px] text-zinc-500">PARAMÈTRES ANSD PRÉ-CHARGÉS</span>
+          <span className="text-[10px] text-muted-foreground uppercase">PARAMÈTRES ANSD PRÉ-CHARGÉS</span>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           {PRESETS.map((p, idx) => (
@@ -109,12 +109,12 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
               key={idx}
               type="button"
               onClick={() => applyPreset(idx)}
-              className="text-left p-2 border border-[#2D333B] hover:border-[#03FFB2] hover:bg-[#03FFB2]/5 transition-all group bg-[#0D1117]"
+              className="text-left p-2.5 border border-border hover:border-primary hover:bg-secondary transition-all group bg-card"
             >
-              <div className="text-[11px] font-semibold text-zinc-200 group-hover:text-[#03FFB2] truncate">
+              <div className="text-[11px] font-semibold text-foreground group-hover:text-primary truncate">
                 {p.title}
               </div>
-              <div className="text-[9px] text-zinc-500 uppercase">
+              <div className="text-[9px] text-muted-foreground uppercase mt-0.5">
                 {p.sectorId.replace('_', ' ')} // {p.regionId}
               </div>
             </button>
@@ -127,7 +127,7 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
         {/* Left Column: Scope & Geography */}
         <div className="space-y-4">
           <div>
-            <label className="block font-mono text-xs text-zinc-300 mb-1">
+            <label className="block font-mono text-xs text-foreground/80 font-medium mb-1">
               [INTITULÉ DU PROJET D’ENTREPRISE] *
             </label>
             <input
@@ -135,19 +135,19 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
               required
               value={form.title}
               onChange={(e) => setForm({ ...form, title: e.target.value })}
-              className="w-full bg-[#0A0D12] border border-[#272B33] px-3 py-2 text-sm text-zinc-100 font-mono focus:border-[#03FFB2] focus:outline-none"
+              className="w-full bg-background border border-input px-3 py-2 text-xs text-foreground font-mono focus:border-primary focus:outline-hidden"
               placeholder="Ex: Plateforme de livraison éco-responsable"
             />
           </div>
 
           <div>
-            <label className="block font-mono text-xs text-zinc-300 mb-1">
+            <label className="block font-mono text-xs text-foreground/80 font-medium mb-1">
               [SECTEUR D’ACTIVITÉ (ANSD RGE-2)] *
             </label>
             <select
               value={form.sectorId}
               onChange={(e) => setForm({ ...form, sectorId: e.target.value as SectorId })}
-              className="w-full bg-[#0A0D12] border border-[#272B33] px-3 py-2 text-xs text-zinc-100 font-mono focus:border-[#03FFB2] focus:outline-none"
+              className="w-full bg-background border border-input px-3 py-2 text-xs text-foreground font-mono focus:border-primary focus:outline-hidden"
             >
               {sectors.map((s) => (
                 <option key={s.sector_id} value={s.sector_id}>
@@ -158,13 +158,13 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
           </div>
 
           <div>
-            <label className="block font-mono text-xs text-zinc-300 mb-1">
+            <label className="block font-mono text-xs text-foreground/80 font-medium mb-1">
               [RÉGION D’IMPLANTATION PRINCIPALE (RGPH-5)] *
             </label>
             <select
               value={form.regionId}
               onChange={(e) => setForm({ ...form, regionId: e.target.value as RegionId })}
-              className="w-full bg-[#0A0D12] border border-[#272B33] px-3 py-2 text-xs text-zinc-100 font-mono focus:border-[#03FFB2] focus:outline-none"
+              className="w-full bg-background border border-input px-3 py-2 text-xs text-foreground font-mono focus:border-primary focus:outline-hidden"
             >
               {regions.map((r) => (
                 <option key={r.region_id} value={r.region_id}>
@@ -175,27 +175,27 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
           </div>
 
           <div>
-            <label className="block font-mono text-xs text-zinc-300 mb-1">
+            <label className="block font-mono text-xs text-foreground/80 font-medium mb-1">
               [DESCRIPTION STRATÉGIQUE & PROPOSITION DE VALEUR]
             </label>
             <textarea
               rows={3}
               value={form.description}
               onChange={(e) => setForm({ ...form, description: e.target.value })}
-              className="w-full bg-[#0A0D12] border border-[#272B33] px-3 py-2 text-xs text-zinc-200 focus:border-[#03FFB2] focus:outline-none leading-relaxed"
+              className="w-full bg-background border border-input px-3 py-2 text-xs text-foreground font-sans focus:border-primary focus:outline-hidden leading-relaxed"
               placeholder="Expliquez la proposition de valeur, les clients cibles et les canaux de distribution..."
             />
           </div>
 
           {/* UEMOA Export Target Toggle */}
-          <div className="border border-[#21262D] p-3 bg-[#0D1117] flex items-center justify-between">
+          <div className="border border-border p-3 bg-secondary/30 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <Globe className="h-4 w-4 text-cyan-400" />
+              <Globe className="h-4 w-4 text-primary" />
               <div>
-                <div className="font-mono text-xs text-zinc-200 font-semibold">
+                <div className="font-mono text-xs text-foreground font-semibold">
                   EXTENSION TRANSFRONTALIÈRE UEMOA
                 </div>
-                <div className="text-[10px] text-zinc-500">
+                <div className="text-[10px] text-muted-foreground">
                   Calcul du TAM élargi (142M hab.) & corridors de fret
                 </div>
               </div>
@@ -204,19 +204,19 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
               type="checkbox"
               checked={form.isUemoaExportTarget}
               onChange={(e) => setForm({ ...form, isUemoaExportTarget: e.target.checked })}
-              className="h-4 w-4 accent-[#03FFB2] rounded-none"
+              className="h-4 w-4 accent-primary rounded-none"
             />
           </div>
 
           {form.isUemoaExportTarget && (
             <div>
-              <label className="block font-mono text-xs text-cyan-400 mb-1">
+              <label className="block font-mono text-xs text-foreground/80 font-medium mb-1">
                 [PAYS CIBLE PRIORITAIRE EN SOUS-RÉGION]
               </label>
               <select
                 value={form.uemoaTargetCountry || 'CI'}
                 onChange={(e) => setForm({ ...form, uemoaTargetCountry: e.target.value as CountryCode })}
-                className="w-full bg-[#0A0D12] border border-cyan-800/60 px-3 py-2 text-xs text-zinc-100 font-mono focus:border-cyan-400 focus:outline-none"
+                className="w-full bg-background border border-input px-3 py-2 text-xs text-foreground font-mono focus:border-primary focus:outline-hidden"
               >
                 {uemoaCountries.filter(c => c.country_code !== 'SN').map((c) => (
                   <option key={c.country_code} value={c.country_code}>
@@ -230,14 +230,14 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
 
         {/* Right Column: Financial Model Inputs */}
         <div className="space-y-4">
-          <div className="border border-[#21262D] bg-[#0A0D12] p-4">
-            <div className="font-mono text-xs text-[#03FFB2] mb-3 flex items-center gap-1.5 pb-2 border-b border-[#21262D]">
-              <Sliders className="h-3.5 w-3.5" /> PARAMÈTRES FINANCIERS DE RENTABILITÉ (FCFA)
+          <div className="border border-border bg-secondary/20 p-4">
+            <div className="font-mono text-xs text-foreground font-bold mb-3 flex items-center gap-1.5 pb-2 border-b border-border">
+              <Sliders className="h-3.5 w-3.5 text-primary" /> PARAMÈTRES FINANCIERS DE RENTABILITÉ (FCFA)
             </div>
 
             <div className="grid grid-cols-2 gap-3 mb-3">
               <div>
-                <label className="block font-mono text-[11px] text-zinc-400 mb-1">
+                <label className="block font-mono text-[11px] text-muted-foreground mb-1">
                   PRIX DE VENTE UNITAIRE *
                 </label>
                 <div className="relative">
@@ -247,14 +247,14 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
                     min={1}
                     value={form.unitPriceFcfa}
                     onChange={(e) => setForm({ ...form, unitPriceFcfa: Number(e.target.value) })}
-                    className="w-full bg-[#11141A] border border-[#272B33] px-2.5 py-1.5 text-xs text-zinc-100 font-mono focus:border-[#03FFB2] focus:outline-none"
+                    className="w-full bg-background border border-input px-2.5 py-1.5 text-xs text-foreground font-mono focus:border-primary focus:outline-hidden"
                   />
-                  <span className="absolute right-2 top-2 text-[10px] text-zinc-500 font-mono">FCFA</span>
+                  <span className="absolute right-2 top-2 text-[10px] text-muted-foreground font-mono">FCFA</span>
                 </div>
               </div>
 
               <div>
-                <label className="block font-mono text-[11px] text-zinc-400 mb-1">
+                <label className="block font-mono text-[11px] text-muted-foreground mb-1">
                   COÛT DE REVIENT UNITAIRE *
                 </label>
                 <div className="relative">
@@ -264,15 +264,15 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
                     min={0}
                     value={form.unitCostFcfa}
                     onChange={(e) => setForm({ ...form, unitCostFcfa: Number(e.target.value) })}
-                    className="w-full bg-[#11141A] border border-[#272B33] px-2.5 py-1.5 text-xs text-zinc-100 font-mono focus:border-[#03FFB2] focus:outline-none"
+                    className="w-full bg-background border border-input px-2.5 py-1.5 text-xs text-foreground font-mono focus:border-primary focus:outline-hidden"
                   />
-                  <span className="absolute right-2 top-2 text-[10px] text-zinc-500 font-mono">FCFA</span>
+                  <span className="absolute right-2 top-2 text-[10px] text-muted-foreground font-mono">FCFA</span>
                 </div>
               </div>
             </div>
 
             <div className="mb-3">
-              <label className="block font-mono text-[11px] text-zinc-400 mb-1">
+              <label className="block font-mono text-[11px] text-muted-foreground mb-1">
                 CHARGES FIXES MENSUELLES (LOYER, SALAIRES, ÉNERGIE, SAAS) *
               </label>
               <div className="relative">
@@ -282,14 +282,14 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
                   min={1}
                   value={form.monthlyFixedCostsFcfa}
                   onChange={(e) => setForm({ ...form, monthlyFixedCostsFcfa: Number(e.target.value) })}
-                  className="w-full bg-[#11141A] border border-[#272B33] px-2.5 py-1.5 text-xs text-zinc-100 font-mono focus:border-[#03FFB2] focus:outline-none"
+                  className="w-full bg-background border border-input px-2.5 py-1.5 text-xs text-foreground font-mono focus:border-primary focus:outline-hidden"
                 />
-                <span className="absolute right-2 top-2 text-[10px] text-zinc-500 font-mono">FCFA / MOIS</span>
+                <span className="absolute right-2 top-2 text-[10px] text-muted-foreground font-mono">FCFA / MOIS</span>
               </div>
             </div>
 
             <div>
-              <label className="block font-mono text-[11px] text-zinc-400 mb-1">
+              <label className="block font-mono text-[11px] text-muted-foreground mb-1">
                 OBJECTIF VOLUME MENSUEL DES VENTES (UNITÉS / CLIENTS) *
               </label>
               <input
@@ -298,14 +298,14 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
                 min={1}
                 value={form.targetMonthlySalesVolume}
                 onChange={(e) => setForm({ ...form, targetMonthlySalesVolume: Number(e.target.value) })}
-                className="w-full bg-[#11141A] border border-[#272B33] px-2.5 py-1.5 text-xs text-zinc-100 font-mono focus:border-[#03FFB2] focus:outline-none"
+                className="w-full bg-background border border-input px-2.5 py-1.5 text-xs text-foreground font-mono focus:border-primary focus:outline-hidden"
               />
             </div>
 
             {/* Quick Live Preview of Margin */}
-            <div className="mt-4 pt-3 border-t border-[#1C2128] flex justify-between items-center font-mono text-[11px]">
-              <span className="text-zinc-500">Marge brute unitaire estimée :</span>
-              <span className={`font-bold ${form.unitPriceFcfa > form.unitCostFcfa ? 'text-[#03FFB2]' : 'text-red-400'}`}>
+            <div className="mt-4 pt-3 border-t border-border flex justify-between items-center font-mono text-[11px]">
+              <span className="text-muted-foreground">Marge brute unitaire estimée :</span>
+              <span className={`font-bold ${form.unitPriceFcfa > form.unitCostFcfa ? 'text-emerald-700' : 'text-destructive'}`}>
                 {(form.unitPriceFcfa - form.unitCostFcfa).toLocaleString('fr-FR')} FCFA (
                 {form.unitPriceFcfa > 0
                   ? (((form.unitPriceFcfa - form.unitCostFcfa) / form.unitPriceFcfa) * 100).toFixed(1)
@@ -319,16 +319,16 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3.5 bg-[#03FFB2] hover:bg-[#00E599] text-black font-mono font-bold text-sm tracking-wider uppercase transition-all shadow-[0_0_15px_rgba(3,255,178,0.25)] flex items-center justify-center gap-2 border border-black disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3.5 bg-primary hover:opacity-90 text-primary-foreground font-mono font-bold text-sm tracking-wider uppercase transition-all shadow-xs flex items-center justify-center gap-2 border border-primary disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? (
               <>
-                <div className="h-4 w-4 border-2 border-black border-t-transparent animate-spin" />
+                <div className="h-4 w-4 border-2 border-primary-foreground border-t-transparent animate-spin" />
                 ARBITRAGE JEV & SYNTHÈSE GEMINI EN COURS...
               </>
             ) : (
               <>
-                <Play className="h-4 w-4 fill-black" />
+                <Play className="h-4 w-4 fill-current" />
                 LANCER L’ÉVALUATION STRATÉGIQUE COMPLÈTE
                 <ArrowRight className="h-4 w-4" />
               </>

@@ -17,68 +17,62 @@ export const VerdictBadge: React.FC<VerdictBadgeProps> = ({
   const configs = {
     GO: {
       label: 'GO // VALIDER LE LANCEMENT',
-      color: 'text-[#03FFB2]',
-      bg: 'bg-[#03FFB2]/10',
-      border: 'border-[#03FFB2]',
-      tagBg: 'bg-[#03FFB2] text-black',
-      glow: 'shadow-[0_0_20px_rgba(3,255,178,0.2)]'
+      color: 'text-emerald-700',
+      bg: 'bg-emerald-50/80',
+      border: 'border-emerald-600',
+      tagBg: 'bg-emerald-600 text-white'
     },
     PIVOT: {
       label: 'PIVOT // RÉAJUSTER LES PRIX & COÛTS',
-      color: 'text-[#FFB224]',
-      bg: 'bg-[#FFB224]/10',
-      border: 'border-[#FFB224]',
-      tagBg: 'bg-[#FFB224] text-black',
-      glow: 'shadow-[0_0_20px_rgba(255,178,36,0.2)]'
+      color: 'text-amber-800',
+      bg: 'bg-amber-50/80',
+      border: 'border-amber-600',
+      tagBg: 'bg-amber-600 text-white'
     },
     NO_GO: {
       label: 'NO-GO // RISQUE D’ATTRITION CRITIQUE',
-      color: 'text-[#FF3B30]',
-      bg: 'bg-[#FF3B30]/10',
-      border: 'border-[#FF3B30]',
-      tagBg: 'bg-[#FF3B30] text-white',
-      glow: 'shadow-[0_0_20px_rgba(255,59,48,0.2)]'
+      color: 'text-rose-700',
+      bg: 'bg-rose-50/80',
+      border: 'border-rose-600',
+      tagBg: 'bg-rose-600 text-white'
     }
   };
 
   const cfg = configs[verdict];
 
   return (
-    <div className={`border-2 p-5 ${cfg.border} ${cfg.bg} ${cfg.glow} font-mono relative overflow-hidden`}>
-      {/* Background Matrix/Dither pattern */}
-      <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:6px_6px] pointer-events-none" />
-
-      <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-current/20 pb-4 mb-4">
+    <div className={`border-2 p-5 ${cfg.border} ${cfg.bg} font-mono relative overflow-hidden shadow-xs`}>
+      <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-border/80 pb-4 mb-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-[10px] tracking-widest text-zinc-400 uppercase">
+            <span className="text-[10px] tracking-widest text-muted-foreground uppercase font-semibold">
               ARBITRAGE TYPE-SAFE JEV (SYSTEM ONE)
             </span>
-            <span className="text-[10px] bg-black/40 border border-zinc-700 px-1.5 py-0.2 text-zinc-300">
+            <span className="text-[10px] bg-secondary border border-border px-1.5 py-0.5 text-foreground font-semibold">
               {latencyMs}ms
             </span>
           </div>
-          <div className={`text-2xl md:text-3xl font-black tracking-tight ${cfg.color}`}>
+          <div className={`text-3xl md:text-4xl font-black tracking-tight ${cfg.color} font-heading`}>
             [ {verdict} ]
           </div>
-          <div className="text-xs font-semibold text-zinc-300 mt-0.5">
+          <div className="text-xs font-semibold text-foreground/80 mt-1">
             {cfg.label}
           </div>
         </div>
 
         <div className="text-right flex flex-col md:items-end">
-          <span className="text-[10px] text-zinc-400 tracking-wider">INDICE DE CONFIANCE</span>
-          <span className="text-xl font-bold tracking-tight text-white">
+          <span className="text-[10px] text-muted-foreground tracking-wider font-semibold">INDICE DE CONFIANCE</span>
+          <span className="text-2xl font-bold tracking-tight text-foreground font-mono">
             {(confidence * 100).toFixed(1)}%
           </span>
-          <span className="text-[10px] text-zinc-500 uppercase tracking-widest">
+          <span className="text-[10px] text-muted-foreground uppercase tracking-widest">
             CALIBRÉ PAR ÉTAT PROJET
           </span>
         </div>
       </div>
 
-      <div className="relative z-10 text-xs text-zinc-200 leading-relaxed font-sans bg-black/40 p-3 border border-white/5">
-        <span className="font-mono text-zinc-400 font-semibold mr-1.5">[DIAGNOSTIC JEV] :</span>
+      <div className="relative z-10 text-xs text-foreground leading-relaxed font-sans bg-card/90 p-3.5 border border-border">
+        <span className="font-mono text-foreground font-bold mr-1.5">[DIAGNOSTIC JEV] :</span>
         {rationale}
       </div>
     </div>
