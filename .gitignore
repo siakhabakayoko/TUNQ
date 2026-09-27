@@ -4,5 +4,7 @@ node_modules/
 .next/
 __pycache__/
 *.pyc
+*.db-shm
+*.db-wal
 .env
 .env.local

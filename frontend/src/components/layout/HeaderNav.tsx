@@ -8,9 +8,34 @@ interface HeaderNavProps {
 }
 
 export const HeaderNav: React.FC<HeaderNavProps> = ({ activeView, onSelectView }) => {
+  const [health, setHealth] = React.useState<{
+    tursoConnected: boolean;
+    tursoMode: string;
+    geminiConfigured: boolean;
+  }>({
+    tursoConnected: true,
+    tursoMode: 'LibSQL',
+    geminiConfigured: false,
+  });
+
+  React.useEffect(() => {
+    fetch('/api/health')
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.status === 'ok') {
+          setHealth({
+            tursoConnected: data.services.turso.connected,
+            tursoMode: data.services.turso.mode === 'turso_cloud' ? 'Turso Cloud' : 'Turso LibSQL',
+            geminiConfigured: data.services.gemini.isConfigured,
+          });
+        }
+      })
+      .catch((e) => console.debug('Health check offline:', e));
+  }, []);
+
   return (
     <header className="border-b border-border bg-card text-foreground sticky top-0 z-50 shadow-xs">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
         {/* Brand & Identity */}
         <div className="flex items-center gap-3.5">
           <div className="p-2 bg-secondary border border-border flex items-center justify-center">
@@ -25,6 +50,19 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ activeView, onSelectView }
               <span className="text-[11px] bg-secondary text-muted-foreground px-2 py-0.5 border border-border font-mono">
                 Sénégal & UEMOA
               </span>
+
+              {/* Real-time system pills */}
+              <div className="hidden lg:flex items-center gap-2 ml-2">
+                <span className="inline-flex items-center gap-1.5 text-[10px] text-muted-foreground bg-secondary px-2 py-0.5 border border-border font-mono">
+                  <span className={`h-1.5 w-1.5 rounded-full ${health.tursoConnected ? 'bg-emerald-600' : 'bg-destructive'}`} />
+                  {health.tursoMode}
+                </span>
+
+                <span className="inline-flex items-center gap-1.5 text-[10px] text-muted-foreground bg-secondary px-2 py-0.5 border border-border font-mono">
+                  <span className={`h-1.5 w-1.5 rounded-full ${health.geminiConfigured ? 'bg-emerald-600' : 'bg-primary'}`} />
+                  {health.geminiConfigured ? 'Gemini 2.5-Flash' : 'Moteur ANSD'}
+                </span>
+              </div>
             </div>
             <p className="text-xs text-muted-foreground font-sans mt-0.5">
               Arbitrage économique et validation de rentabilité financière
