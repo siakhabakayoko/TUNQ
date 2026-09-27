@@ -73,11 +73,17 @@ const SECTOR_BASELINES: Record<SectorId, SectorPricingBaseline> = {
     baseFixedCosts: 750000,
     baseVolume: 180,
   },
-  ENERGY_SOLAR: {
-    basePrice: 125000,
-    targetMargin: 0.317,
-    baseFixedCosts: 650000,
-    baseVolume: 30,
+  HOSPITALITY_FOOD: {
+    basePrice: 8500,
+    targetMargin: 0.48,
+    baseFixedCosts: 550000,
+    baseVolume: 220,
+  },
+  EDUCATION_TRAINING: {
+    basePrice: 35000,
+    targetMargin: 0.52,
+    baseFixedCosts: 600000,
+    baseVolume: 80,
   },
 };
 

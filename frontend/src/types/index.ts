@@ -164,3 +164,6 @@ export interface WorkspaceOrg {
   projectsCount: number;
   dataRoomFilesCount: number;
 }
+
+export * from './decision';
+

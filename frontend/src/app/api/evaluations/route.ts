@@ -101,8 +101,8 @@ export async function POST(request: Request) {
         sectorName: sector.name,
         regionId: region.region_id,
         regionName: region.name,
-        description: body.description,
-        isUemoaExportTarget: body.isUemoaExportTarget,
+        description: body.description || '',
+        isUemoaExportTarget: Boolean(body.isUemoaExportTarget),
         uemoaTargetCountry: body.uemoaTargetCountry,
       },
       financials: {
@@ -130,7 +130,7 @@ export async function POST(request: Request) {
       title: body.title,
       sector_id: sector.sector_id,
       region_id: region.region_id,
-      description: body.description,
+      description: body.description || '',
       is_uemoa_target: body.isUemoaExportTarget ? 1 : 0,
       uemoa_target_country: body.uemoaTargetCountry || null,
     });

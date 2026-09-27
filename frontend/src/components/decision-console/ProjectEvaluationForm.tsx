@@ -20,7 +20,7 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
   const [form, setForm] = useState<ProjectInput>({
     title: '',
     tagline: '',
-    sectorId: sectors[0].sector_id,
+    sectorId: (sectors[0]?.sector_id as SectorId) || 'TECH_DIGITAL',
     regionId: 'DK',
     description: '',
     unitPriceFcfa: 0,
