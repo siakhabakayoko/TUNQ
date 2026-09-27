@@ -29,9 +29,40 @@ export async function POST(req: NextRequest) {
     // 5. Gemini Strategic Action Plan
     const actionPlan = await generateActionPlanWithGemini(body, financials, diagnosis, decision);
 
+    // 6. Turso Database Persistence
+    const { saveProject, saveEvaluation } = await import('@/lib/turso/repository');
+    const savedProject = await saveProject({
+      title: body.title,
+      sector_id: body.sectorId,
+      region_id: body.regionId,
+      description: body.description || '',
+      is_uemoa_target: body.isUemoaExportTarget ? 1 : 0,
+      uemoa_target_country: body.uemoaTargetCountry || null
+    });
+
+    const savedEvaluation = await saveEvaluation({
+      project_id: savedProject.id,
+      unit_price_fcfa: body.unitPriceFcfa,
+      unit_cost_fcfa: body.unitCostFcfa,
+      monthly_fixed_costs_fcfa: body.monthlyFixedCostsFcfa,
+      target_monthly_sales_volume: body.targetMonthlySalesVolume,
+      breakeven_units: financials.breakEvenMonthlyUnits,
+      breakeven_revenue_fcfa: financials.breakEvenMonthlyRevenueFcfa,
+      gross_margin_pct: financials.grossMarginPct,
+      working_capital_rec_fcfa: financials.workingCapitalReserveFcfa,
+      verdict: decision.verdict === 'GO' ? 'VIABLE_IMMÉDIAT' : decision.verdict === 'PIVOT' ? 'PIVOT_REQUIS' : 'NON_VIABLE',
+      confidence_score: Math.round(decision.confidence * 100),
+      gemini_analysis_json: JSON.stringify({
+        actionPlan,
+        scores: decision.scores,
+        noulChecks: decision.noulChecks,
+        rationale: decision.coreRationale
+      })
+    });
+
     const evaluation: FullProjectEvaluation = {
-      id: `eval_${Date.now()}`,
-      createdAt: new Date().toISOString(),
+      id: savedEvaluation.id,
+      createdAt: savedEvaluation.created_at,
       project: body,
       financials,
       diagnosis,

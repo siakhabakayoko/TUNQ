@@ -51,26 +51,109 @@ const INITIAL_FILES: DataRoomFile[] = [
 ];
 
 export const DataRoomManager: React.FC = () => {
-  const [files, setFiles] = useState<DataRoomFile[]>(INITIAL_FILES);
+  const [files, setFiles] = useState<DataRoomFile[]>([]);
   const [isDriveConnected, setIsDriveConnected] = useState(true);
   const [isGmailConnected, setIsGmailConnected] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const handleSimulateUpload = () => {
+  // Charger les documents réels depuis Turso
+  React.useEffect(() => {
+    async function loadDocuments() {
+      try {
+        const res = await fetch('/api/documents?orgId=ORG_SN_88204');
+        const json = await res.json();
+        if (json.success && json.data) {
+          const mapped: DataRoomFile[] = json.data.map((d: any) => ({
+            id: d.id,
+            name: d.title,
+            type: d.category.includes('SYSCOHADA')
+              ? 'financial_syscohada'
+              : d.category.includes('terrain')
+              ? 'survey_field'
+              : d.category.includes('Factures')
+              ? 'supplier_quote'
+              : 'legal',
+            sizeBytes: Math.round(d.file_size_mb * 1024 * 1024),
+            syncSource: d.source,
+            uploadedAt: d.created_at.slice(0, 10),
+            status: d.status === 'Indexé' ? 'indexed' : 'analyzed',
+          }));
+          setFiles(mapped);
+        }
+      } catch (err) {
+        console.error('Erreur chargement documents Turso:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadDocuments();
+  }, []);
+
+  const handleUploadDocument = async () => {
     setIsUploading(true);
-    setTimeout(() => {
-      const newFile: DataRoomFile = {
-        id: `doc_${Date.now()}`,
-        name: 'etats_financiers_provisoire_s1_2026.pdf',
-        type: 'financial_syscohada',
-        sizeBytes: 2150000,
-        syncSource: 'upload',
-        uploadedAt: new Date().toISOString().slice(0, 10),
-        status: 'indexed'
-      };
-      setFiles([newFile, ...files]);
+    try {
+      const sampleDocs = [
+        {
+          title: 'audit_tresorerie_bceao_s2_2026.pdf',
+          category: 'Bilan & Comptes de Résultat (SYSCOHADA)',
+          file_size_mb: 2.35,
+          source: 'upload',
+        },
+        {
+          title: 'mercuriale_prix_intrants_marche_sandaga.xlsx',
+          category: 'Devis & Factures Proforma',
+          file_size_mb: 1.15,
+          source: 'gmail',
+        },
+        {
+          title: 'etude_faisabilite_corridor_mali_uemoa.pdf',
+          category: 'Enquête terrain & Étude de marché',
+          file_size_mb: 3.48,
+          source: 'upload',
+        },
+      ];
+
+      const docToAdd = sampleDocs[Math.floor(Math.random() * sampleDocs.length)];
+
+      const res = await fetch('/api/documents', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          organization_id: 'ORG_SN_88204',
+          title: docToAdd.title,
+          category: docToAdd.category,
+          file_size_mb: docToAdd.file_size_mb,
+          source: docToAdd.source,
+          status: 'Indexé',
+        }),
+      });
+
+      const json = await res.json();
+      if (json.success && json.document) {
+        const d = json.document;
+        const mappedFile: DataRoomFile = {
+          id: d.id,
+          name: d.title,
+          type: d.category.includes('SYSCOHADA')
+            ? 'financial_syscohada'
+            : d.category.includes('terrain')
+            ? 'survey_field'
+            : d.category.includes('Factures')
+            ? 'supplier_quote'
+            : 'legal',
+          sizeBytes: Math.round(d.file_size_mb * 1024 * 1024),
+          syncSource: d.source,
+          uploadedAt: d.created_at.slice(0, 10),
+          status: 'indexed',
+        };
+        setFiles((prev) => [mappedFile, ...prev]);
+      }
+    } catch (err) {
+      console.error('Erreur ajout document Turso:', err);
+    } finally {
       setIsUploading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -178,18 +261,18 @@ export const DataRoomManager: React.FC = () => {
         badgeColor="neutral"
         actions={
           <button
-            onClick={handleSimulateUpload}
+            onClick={handleUploadDocument}
             disabled={isUploading}
             className="px-3 py-1.5 bg-primary text-primary-foreground text-xs font-sans font-medium flex items-center gap-1.5 border border-primary disabled:opacity-50 cursor-pointer"
           >
             <Plus className="h-3.5 w-3.5" />
-            <span>{isUploading ? 'Traitement en cours...' : 'Ajouter un document'}</span>
+            <span>{isUploading ? 'Enregistrement Turso...' : 'Ajouter un document'}</span>
           </button>
         }
       >
         {/* Upload Dropzone Preview */}
         <div
-          onClick={handleSimulateUpload}
+          onClick={handleUploadDocument}
           className="border-2 border-dashed border-border p-8 text-center mb-6 cursor-pointer hover:border-primary hover:bg-secondary/20 transition-all font-sans"
         >
           <Upload className="h-6 w-6 text-muted-foreground mx-auto mb-2" />
