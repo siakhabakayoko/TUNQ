@@ -12,10 +12,12 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ activeView, onSelectView }
     tursoConnected: boolean;
     tursoMode: string;
     geminiConfigured: boolean;
+    jevConfigured: boolean;
   }>({
     tursoConnected: true,
     tursoMode: 'LibSQL',
     geminiConfigured: false,
+    jevConfigured: false,
   });
 
   React.useEffect(() => {
@@ -24,9 +26,10 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ activeView, onSelectView }
       .then((data) => {
         if (data.status === 'ok') {
           setHealth({
-            tursoConnected: data.services.turso.connected,
-            tursoMode: data.services.turso.mode === 'turso_cloud' ? 'Turso Cloud' : 'Turso LibSQL',
-            geminiConfigured: data.services.gemini.isConfigured,
+            tursoConnected: data.services.turso?.connected ?? true,
+            tursoMode: data.services.turso?.mode === 'turso_cloud' ? 'Turso Cloud' : 'Turso LibSQL',
+            geminiConfigured: data.services.gemini?.isConfigured ?? false,
+            jevConfigured: data.services.jev?.isConfigured ?? false,
           });
         }
       })
@@ -61,6 +64,11 @@ export const HeaderNav: React.FC<HeaderNavProps> = ({ activeView, onSelectView }
                 <span className="inline-flex items-center gap-1.5 text-[10px] text-muted-foreground bg-secondary px-2 py-0.5 border border-border font-mono">
                   <span className={`h-1.5 w-1.5 rounded-full ${health.geminiConfigured ? 'bg-emerald-600' : 'bg-primary'}`} />
                   {health.geminiConfigured ? 'Gemini 2.5-Flash' : 'Moteur ANSD'}
+                </span>
+
+                <span className="inline-flex items-center gap-1.5 text-[10px] text-muted-foreground bg-secondary px-2 py-0.5 border border-border font-mono">
+                  <span className={`h-1.5 w-1.5 rounded-full ${health.jevConfigured ? 'bg-emerald-600' : 'bg-primary'}`} />
+                  {health.jevConfigured ? 'Jev API' : 'Jev System One'}
                 </span>
               </div>
             </div>

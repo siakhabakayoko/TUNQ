@@ -11,7 +11,7 @@ export async function generateGeminiStrategicAnalysis(
   input: GeminiEvaluationInput
 ): Promise<GeminiEvaluationOutput> {
   const apiKey = process.env.GEMINI_API_KEY?.trim();
-  const modelName = process.env.GEMINI_MODEL?.trim() || 'gemini-2.5-flash';
+  const modelName = process.env.GEMINI_MODEL?.trim() || 'gemini-3.8-flash';
 
   if (!apiKey) {
     return generateFallbackAnsdAnalysis(input, 'Moteur calibré ANSD (Clé GEMINI_API_KEY non configurée)');

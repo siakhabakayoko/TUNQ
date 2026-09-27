@@ -42,11 +42,12 @@ export async function evaluateWithJev(
     }
   };
 
-  const apiKey = process.env.TYPESAFE_API_KEY;
+  const apiKey = process.env.JEV_API_KEY || process.env.TYPESAFE_API_KEY;
+  const apiUrl = process.env.JEV_API_URL || process.env.TYPESAFE_API_URL || 'https://api.typesafe.ai/v1/systemone';
 
   if (apiKey) {
     try {
-      const response = await fetch('https://api.typesafe.ai/v1/systemone', {
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

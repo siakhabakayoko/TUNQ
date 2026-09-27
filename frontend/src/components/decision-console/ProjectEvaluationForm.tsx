@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ProjectInput, SectorId, RegionId, CountryCode } from '@/types';
 import { getAllSectors, getAllRegions, getUemoaCountries } from '@/lib/ansd-service';
-import { Sparkles, ArrowRight, Play, Sliders, Globe } from 'lucide-react';
+import { Sparkles, ArrowRight, Play, Sliders, Globe, Check, Loader2, Sparkle } from 'lucide-react';
+import type { PricingSuggestionOutput } from '@/lib/ansd-pricing';
 
 interface ProjectEvaluationFormProps {
   onSubmit: (input: ProjectInput) => void;
@@ -84,8 +85,68 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
     uemoaTargetCountry: 'CI'
   });
 
+  const [suggestion, setSuggestion] = useState<PricingSuggestionOutput | null>(null);
+  const [isSuggesting, setIsSuggesting] = useState<boolean>(false);
+  const [appliedAnsd, setAppliedAnsd] = useState<boolean>(false);
+
+  const requestAnsdPricing = async (customForm?: ProjectInput) => {
+    const target = customForm || form;
+    if (!target.title || target.title.trim().length < 3) return;
+
+    setIsSuggesting(true);
+    try {
+      const res = await fetch('/api/ansd/pricing-suggest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: target.title,
+          description: target.description,
+          sectorId: target.sectorId,
+          regionId: target.regionId,
+          isUemoaExportTarget: target.isUemoaExportTarget,
+          uemoaTargetCountry: target.uemoaTargetCountry,
+        }),
+      });
+      const data = await res.json();
+      if (data.success && data.suggestion) {
+        setSuggestion(data.suggestion);
+      }
+    } catch (err) {
+      console.warn('Failed to fetch ANSD pricing suggestion:', err);
+    } finally {
+      setIsSuggesting(false);
+    }
+  };
+
+  // Détection automatique dès que la partie gauche (titre, secteur, région, export) est modifiée
+  useEffect(() => {
+    if (!form.title || form.title.trim().length < 3) {
+      setSuggestion(null);
+      return;
+    }
+    const timer = setTimeout(() => {
+      requestAnsdPricing(form);
+    }, 750);
+    return () => clearTimeout(timer);
+  }, [form.title, form.description, form.sectorId, form.regionId, form.isUemoaExportTarget, form.uemoaTargetCountry]);
+
+  const handleApplySuggestion = () => {
+    if (!suggestion) return;
+    setForm((prev) => ({
+      ...prev,
+      unitPriceFcfa: suggestion.suggestedUnitPriceFcfa,
+      unitCostFcfa: suggestion.suggestedUnitCostFcfa,
+      monthlyFixedCostsFcfa: suggestion.suggestedMonthlyFixedCostsFcfa,
+      targetMonthlySalesVolume: suggestion.suggestedMonthlySalesVolume,
+    }));
+    setAppliedAnsd(true);
+    setTimeout(() => setAppliedAnsd(false), 3000);
+  };
+
   const applyPreset = (idx: number) => {
-    setForm({ ...PRESETS[idx] });
+    const preset = PRESETS[idx];
+    setForm({ ...preset });
+    requestAnsdPricing(preset);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -228,9 +289,96 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
         {/* Right Column: Financial Inputs */}
         <div className="space-y-5">
           <div className="border border-border bg-card p-6 space-y-4">
-            <h3 className="text-xs font-bold text-foreground uppercase tracking-wider font-mono border-b border-border pb-3">
-              Données financières prévisionnelles
-            </h3>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border pb-3">
+              <h3 className="text-xs font-bold text-foreground uppercase tracking-wider font-mono">
+                Données financières prévisionnelles
+              </h3>
+
+              <button
+                type="button"
+                onClick={() => requestAnsdPricing()}
+                disabled={isSuggesting || !form.title || form.title.trim().length < 3}
+                className="inline-flex items-center gap-1.5 text-xs text-primary font-medium hover:underline disabled:opacity-40 disabled:no-underline cursor-pointer"
+                title="Estimer les prix et charges à partir des indicateurs RGE-2 et RGPH-5 de l'ANSD"
+              >
+                {isSuggesting ? (
+                  <>
+                    <Loader2 className="h-3 w-3 animate-spin text-primary" />
+                    <span>Calcul ANSD & IA...</span>
+                  </>
+                ) : (
+                  <>
+                    <Sparkles className="h-3 w-3 text-primary" />
+                    <span>Estimer via l'ANSD</span>
+                  </>
+                )}
+              </button>
+            </div>
+
+            {/* ANSD & Gemini Pricing Recommendation Banner */}
+            {suggestion && (
+              <div className="p-3.5 border border-primary/30 bg-secondary/50 space-y-2.5 transition-all">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-[11px] font-bold text-foreground flex items-center gap-1.5 font-heading">
+                      <Sparkles className="h-3.5 w-3.5 text-primary" />
+                      Tarification recommandée ANSD
+                    </span>
+                    <span className="text-[10px] px-1.5 py-0.5 bg-background border border-border font-mono text-muted-foreground">
+                      {suggestion.source === 'gemini_ai' ? 'Gemini 3.8 + ANSD' : 'RGE-2 Calibré'}
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleApplySuggestion}
+                    className="text-xs font-semibold px-2.5 py-1 bg-primary text-primary-foreground hover:opacity-90 transition-all font-sans flex items-center gap-1 shadow-xs cursor-pointer"
+                  >
+                    {appliedAnsd ? (
+                      <>
+                        <Check className="h-3 w-3 text-emerald-400" />
+                        <span>Appliqué !</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Appliquer ces prix</span>
+                        <ArrowRight className="h-3 w-3" />
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono">
+                  <div className="bg-background p-2 border border-border">
+                    <div className="text-[10px] text-muted-foreground">Prix unitaire</div>
+                    <div className="font-bold text-foreground">{suggestion.suggestedUnitPriceFcfa.toLocaleString('fr-FR')} F</div>
+                  </div>
+                  <div className="bg-background p-2 border border-border">
+                    <div className="text-[10px] text-muted-foreground">Coût unitaire</div>
+                    <div className="font-bold text-foreground">{suggestion.suggestedUnitCostFcfa.toLocaleString('fr-FR')} F</div>
+                  </div>
+                  <div className="bg-background p-2 border border-border">
+                    <div className="text-[10px] text-muted-foreground">Charges fixes/m</div>
+                    <div className="font-bold text-foreground">{suggestion.suggestedMonthlyFixedCostsFcfa.toLocaleString('fr-FR')} F</div>
+                  </div>
+                  <div className="bg-background p-2 border border-border">
+                    <div className="text-[10px] text-muted-foreground">Ventes/m</div>
+                    <div className="font-bold text-foreground">{suggestion.suggestedMonthlySalesVolume.toLocaleString('fr-FR')} u.</div>
+                  </div>
+                </div>
+
+                <p className="text-[11px] text-muted-foreground font-sans leading-relaxed">
+                  {suggestion.rationale}
+                </p>
+              </div>
+            )}
+
+            {!suggestion && (!form.title || form.title.trim().length < 3) && (
+              <div className="text-[11px] text-muted-foreground font-sans bg-secondary/30 p-2.5 border border-dashed border-border flex items-center gap-2">
+                <Sparkles className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+                <span>Renseignez le nom et la description du projet à gauche pour obtenir la recommandation de prix automatique de l'ANSD.</span>
+              </div>
+            )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
