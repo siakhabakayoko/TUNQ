@@ -207,6 +207,6 @@ function parseTypeSafeResponse(apiData: any, latencyMs: number): JevDecision {
       cashRunwaySufficient: true,
       uemoaCrossborderViable: true
     },
-    coreRationale: apiData.rationale || 'Décision validée par le moteur System One TypeSafe AI.'
+    coreRationale: apiData.rationale || 'Décision validée par le moteur décisionnel d’arbitrage économique ANSD.'
   };
 }

@@ -27,7 +27,7 @@ export const AsciiHeader: React.FC = () => {
 {`
 ╔══════════════════════════════════════════════════════════════════════════════════════╗
 ║  ████████╗██╗   ██╗███╗   ██╗ ██████╗       [ SYSTEM ONE DECISION CORE v0.1 ]       ║
-║  ╚══██╔══╝██║   ██║████╗  ██║██╔═══██╗      [ ARBITRAGE : JEV // TYPESAFE AI ]      ║
+║  ╚══██╔══╝██║   ██║████╗  ██║██╔═══██╗      [ ARBITRAGE : TUNQ DECISION CORE ]      ║
 ║     ██║   ██║   ██║██╔██╗ ██║██║   ██║      [ DATA LAKE : ANSD SÉNÉGAL (158 DB) ]   ║
 ║     ██║   ██║   ██║██║╚██╗██║██║▄▄ ██║      [ EXPANSION : CORRIDORS UEMOA / BCEAO ] ║
 ║     ██║   ╚██████╔╝██║ ╚████║╚██████╔╝      [ SÉCURITÉ  : DATA ROOM AES-256 ]       ║

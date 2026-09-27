@@ -12,8 +12,6 @@ export async function GET() {
     const tursoStatus = await getTursoStatus();
     const hasGeminiKey = Boolean(process.env.GEMINI_API_KEY?.trim());
     const geminiModel = process.env.GEMINI_MODEL || 'gemini-3.8-flash';
-    const hasJevKey = Boolean((process.env.JEV_API_KEY || process.env.TYPESAFE_API_KEY)?.trim());
-    const jevUrl = process.env.JEV_API_URL || process.env.TYPESAFE_API_URL || 'https://api.typesafe.ai/v1/systemone';
 
     return NextResponse.json({
       status: 'ok',
@@ -29,11 +27,6 @@ export async function GET() {
           isConfigured: hasGeminiKey,
           model: geminiModel,
           mode: hasGeminiKey ? 'online_ai' : 'calibrated_ansd_fallback',
-        },
-        jev: {
-          isConfigured: hasJevKey,
-          mode: hasJevKey ? 'online_typesafe_api' : 'calibrated_system_one_local',
-          endpoint: jevUrl,
         },
         ansd: {
           ihpc: 'synced',

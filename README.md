@@ -2,7 +2,7 @@
 
 > **Système d'évaluation de viabilité commerciale, de rentabilité financière et de décision assistée par IA pour le Sénégal et l'espace UEMOA.**
 
-Inspiré par le design épuré et l'ingénierie de précision de **TypeSafe AI (`typesafe.ai`)**, **TUNQ** combine l'arbitrage formel sans hallucination de **Jev (TypeSafe AI - System One)**, la puissance générative de **Google Gemini**, et le référentiel statistique officiel de l'**ANSD (Agence Nationale de la Statistique et de la Démographie du Sénégal)** et de la **BCEAO**.
+Inspiré par le design épuré et l'ingénierie de précision, **TUNQ** combine l'arbitrage formel sans complaisance du **Moteur Décisionnel TUNQ Core**, la puissance générative de **Google Gemini**, la persistance haute performance à l'edge de **Turso (LibSQL)**, et le référentiel statistique officiel de l'**ANSD (Agence Nationale de la Statistique et de la Démographie du Sénégal)** et de la **BCEAO**.
 
 ---
 
@@ -25,11 +25,11 @@ Inspiré par le design épuré et l'ingénierie de précision de **TypeSafe AI (
   * Retard commercial (besoin de trésorerie sur 90 jours sans vente).
 * **Diagnostic stratégique** : TAM / SAM / SOM dynamique en FCFA, matrice SWOT, 5 Forces de Porter contextualisées et PESTEL Sénégal (OHADA, monnaie FCFA, fiscalité locale).
 
-### 3. Arbitrage Décisionnel Jev (TypeSafe AI - System One)
-* Contrairement aux LLMs conversationnels classiques sujets aux biais de complaisance, **Jev** agit comme un juge formel :
-  * **Primitives Noul (Probabilités Oui/Non)** : `unit_economics_viable`, `local_purchasing_power_fit`, `cash_runway_sufficient`.
-  * **Primitives Score (1.0 à 10.0)** : `profitabilityScore`, `marketAttractivenessScore`, `supplyChainRiskScore`, `sectorSurvivalScore`.
-  * **Primitive Choice (Verdict d'arbitrage)** : `[ GO ]`, `[ PIVOT ]`, `[ NO_GO ]` avec indice de confiance calibré.
+### 3. Moteur d'Arbitrage Économique & Scoring de Viabilité
+* Contrairement aux LLMs conversationnels classiques sujets aux biais de complaisance, **TUNQ** applique des règles d'arbitrage mathématiques rigoureuses :
+  * **Contrôles de Viabilité** : `unit_economics_viable`, `local_purchasing_power_fit`, `cash_runway_sufficient`.
+  * **Scores Calibrés (1.0 à 10.0)** : `profitabilityScore`, `marketAttractivenessScore`, `supplyChainRiskScore`, `sectorSurvivalScore`.
+  * **Verdict d'arbitrage** : `[ GO ]`, `[ PIVOT ]`, `[ NO_GO ]` avec indice de confiance certifié.
 
 ### 4. Synthèse Exécutive & Plan d'Action Gemini
 * **Rapport stratégique** rédigé pour l'entrepreneur et les investisseurs.

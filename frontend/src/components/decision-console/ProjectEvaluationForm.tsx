@@ -9,60 +9,6 @@ interface ProjectEvaluationFormProps {
   isLoading: boolean;
 }
 
-const PRESETS = [
-  {
-    title: 'Fintech & Terminal Marchand Mobile',
-    tagline: 'Solution d’encaissement QR code & TPE hybride pour commerçants',
-    sectorId: 'TECH_DIGITAL' as SectorId,
-    regionId: 'DK' as RegionId,
-    description: 'Déploiement d’un terminal de paiement et d’une app mobile pour les boutiques et supérettes à Dakar, interconnectée avec Wave et Orange Money.',
-    unitPriceFcfa: 45000,
-    unitCostFcfa: 18000,
-    monthlyFixedCostsFcfa: 1850000,
-    targetMonthlySalesVolume: 120,
-    isUemoaExportTarget: true,
-    uemoaTargetCountry: 'CI' as CountryCode
-  },
-  {
-    title: 'Transformation Mangues & Céréales Locales',
-    tagline: 'Unité agro-industrielle de séchage et conditionnement',
-    sectorId: 'AGRO_INDUSTRY' as SectorId,
-    regionId: 'TH' as RegionId,
-    description: 'Transformation et emballage sous vide de mangues séchées du bassin des Niayes et céréales locales (mil, maïs) pour la grande distribution et l’export.',
-    unitPriceFcfa: 2500,
-    unitCostFcfa: 1200,
-    monthlyFixedCostsFcfa: 1400000,
-    targetMonthlySalesVolume: 2500,
-    isUemoaExportTarget: true,
-    uemoaTargetCountry: 'ML' as CountryCode
-  },
-  {
-    title: 'Logistique Fret Transit Dakar-Bamako',
-    tagline: 'Plateforme de traçabilité et groupage pour transporteurs',
-    sectorId: 'TRANSPORT_LOGISTICS' as SectorId,
-    regionId: 'TC' as RegionId,
-    description: 'Plateforme SaaS et relais d’assistance logistique sur le corridor routier Dakar-Tambacounda-Bamako pour les importateurs maliens.',
-    unitPriceFcfa: 120000,
-    unitCostFcfa: 45000,
-    monthlyFixedCostsFcfa: 2800000,
-    targetMonthlySalesVolume: 65,
-    isUemoaExportTarget: true,
-    uemoaTargetCountry: 'ML' as CountryCode
-  },
-  {
-    title: 'Pôle Médical & Imagerie Régionale',
-    tagline: 'Centre de diagnostic et consultations spécialisées',
-    sectorId: 'HEALTH_PHARMA' as SectorId,
-    regionId: 'SL' as RegionId,
-    description: 'Création d’un centre de diagnostic moderne à Saint-Louis pour réduire les évacuations sanitaires vers Dakar et la Mauritanie.',
-    unitPriceFcfa: 35000,
-    unitCostFcfa: 12000,
-    monthlyFixedCostsFcfa: 3500000,
-    targetMonthlySalesVolume: 220,
-    isUemoaExportTarget: false
-  }
-];
-
 export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
   onSubmit,
   isLoading
@@ -143,12 +89,6 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
     setTimeout(() => setAppliedAnsd(false), 3000);
   };
 
-  const applyPreset = (idx: number) => {
-    const preset = PRESETS[idx];
-    setForm({ ...preset });
-    requestAnsdPricing(preset);
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSubmit(form);
@@ -156,25 +96,6 @@ export const ProjectEvaluationForm: React.FC<ProjectEvaluationFormProps> = ({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
-      {/* Quick-Load Presets */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-6 border-b border-border">
-        <span className="text-xs font-medium text-muted-foreground font-sans">
-          Charger un exemple type :
-        </span>
-        <div className="flex flex-wrap gap-2">
-          {PRESETS.map((p, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => applyPreset(idx)}
-              className="px-3 py-1.5 border border-border hover:border-primary bg-card hover:bg-secondary text-xs text-foreground font-medium transition-all font-sans"
-            >
-              {p.title.split('&')[0].trim()}
-            </button>
-          ))}
-        </div>
-      </div>
-
       {/* Grid: 2 Columns */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left Column: Scope & Geography */}

@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "TUNQ // Intelligence Économique & Décision Produit",
-  description: "Plateforme d'intelligence économique, de rentabilité financière et d'arbitrage décisionnel assistée par TypeSafe AI Jev et Google Gemini pour le Sénégal et l'espace UEMOA.",
+  description: "Plateforme d'intelligence économique, de rentabilité financière et d'arbitrage décisionnel assistée par Google Gemini et les référentiels statistiques officiels de l'ANSD pour le Sénégal et l'espace UEMOA.",
 };
 
 export default function RootLayout({

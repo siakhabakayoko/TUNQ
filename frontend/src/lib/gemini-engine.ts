@@ -26,11 +26,11 @@ Projet : ${project.title}
 Secteur : ${sector.name}
 Région : ${region.name}
 Description : ${project.description}
-Décision formelle de l'arbitre Jev : ${decision.verdict} (Score rentabilité: ${decision.scores.profitabilityScore}/10, Confiance: ${(decision.confidence * 100).toFixed(1)}%)
+Décision formelle d'arbitrage : ${decision.verdict} (Score rentabilité: ${decision.scores.profitabilityScore}/10, Confiance: ${(decision.confidence * 100).toFixed(1)}%)
 Marge brute : ${financials.grossMarginPct}% (Benchmark ANSD : ${financials.sectorBenchmarkMarginPct}%)
 Point mort : ${financials.breakEvenMonthlyUnits} unités / mois (${financials.breakEvenMonthlyRevenueFcfa.toLocaleString('fr-FR')} FCFA)
 Délai estimé d'équilibre : ${financials.monthsToBreakEven} mois
-Raison Jev : ${decision.coreRationale}
+Justification d'arbitrage : ${decision.coreRationale}
 
 Rédige un rapport exécutif d'action en JSON strict :
 - executiveSummary (1 paragraphe percutant en français)
@@ -81,7 +81,7 @@ function buildCalibratedActionPlan(
 ): GeminiActionPlan {
   let summary = '';
   if (decision.verdict === 'GO') {
-    summary = `Le projet "${project.title}" présente des fondamentaux économiques remarquables pour le pôle de ${region.name}. Avec une marge brute de ${financials.grossMarginPct}% supérieure au benchmark sectoriel ANSD (${financials.sectorBenchmarkMarginPct}%) et un point mort atteignable dès ${financials.monthsToBreakEven} mois, le modèle démontre une forte résilience face aux tensions inflationnistes locales. L'arbitrage Jev valide le lancement opérationnel immédiat avec un score de confiance de ${(decision.confidence * 100).toFixed(1)}%.`;
+    summary = `Le projet "${project.title}" présente des fondamentaux économiques remarquables pour le pôle de ${region.name}. Avec une marge brute de ${financials.grossMarginPct}% supérieure au benchmark sectoriel ANSD (${financials.sectorBenchmarkMarginPct}%) et un point mort atteignable dès ${financials.monthsToBreakEven} mois, le modèle démontre une forte résilience face aux tensions inflationnistes locales. L'arbitrage décisionnel valide le lancement opérationnel immédiat avec un score de confiance de ${(decision.confidence * 100).toFixed(1)}%.`;
   } else if (decision.verdict === 'PIVOT') {
     summary = `L'opportunité de marché sur le segment "${sector.name}" est avérée à ${region.name}, mais l'équation économique unitaire nécessite un réajustement stratégique. L'écart de marge (${financials.marginVariancePct}%) et le besoin en fonds de roulement (${financials.workingCapitalReserveFcfa.toLocaleString('fr-FR')} FCFA) créent un risque de trésorerie. Il est préconisé d'optimiser les coûts variables d'approvisionnement et de tester une tarification par paliers avant tout engagement financier massif.`;
   } else {
@@ -116,7 +116,7 @@ function buildCalibratedActionPlan(
       project.isUemoaExportTarget
         ? `Activation des démarches douanières du Tarif Extérieur Commun (TEC UEMOA) pour amorcer l’export vers ${project.uemoaTargetCountry || 'la sous-région'}.`
         : `Extension de la distribution vers les centres urbains secondaires de la région (${region.top_activities.join(', ')}).`,
-      `Finalisation du dossier de rentabilité certifié par Jev pour ouverture de ligne de financement bancaire ou DER/FJ.`
+      `Finalisation du dossier de rentabilité certifié conforme aux référentiels ANSD pour ouverture de ligne de financement bancaire ou DER/FJ.`
     ]
   };
 
